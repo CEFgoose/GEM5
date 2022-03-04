@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
+   sodipodi:docname="GEM_shapes.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:snap-global="false"
+     inkscape:zoom="2.3197812"
+     inkscape:cx="1877.9789"
+     inkscape:cy="-197.21688"
+     inkscape:window-width="1440"
+     inkscape:window-height="847"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g2111"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/triangle.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       transform="translate(20.073732,-151.86039)">
+      <rect
+         style="fill:#000000;stroke-width:1.63415"
+         id="rect924"
+         width="43.228012"
+         height="43.228012"
+         x="6.451942"
+         y="14.194272" />
+      <path
+         id="path1115"
+         style="opacity:1;fill:#ffffff;stroke:#ffffff;stroke-width:21.2607"
+         inkscape:transform-center-x="-2.5846664e-06"
+         inkscape:transform-center-y="-4.8781989"
+         d="m 106.43359,86.248047 -29.880856,55.312503 -29.878906,55.3125 h 59.759762 59.75977 l -29.88086,-55.3125 z m 0,5.173828 27.72461,51.431645 27.72461,51.43164 H 106.43359 50.984375 l 27.724609,-51.43164 z"
+         transform="scale(0.26458333)" />
+    </g>
+    <g
+       id="g4698"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/square.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       transform="translate(9.1580919,-155.05902)">
+      <rect
+         style="opacity:1;fill:#000000;stroke:none;stroke-width:1"
+         id="rect2271"
+         width="43.341011"
+         height="43.341011"
+         x="133.10252"
+         y="17.336407" />
+      <path
+         id="rect1221"
+         style="opacity:1;fill:#ffffff;stroke-width:6.03173"
+         d="m 137.43662,21.670504 v 34.672817 h 34.67282 V 21.670504 Z m 5.93091,5.930903 h 22.81101 v 22.811528 h -22.81101 z" />
+    </g>
+    <g
+       id="g5638"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/pentagon.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       transform="translate(15.415006,-156.92264)">
+      <rect
+         style="fill:#000000;stroke:none;stroke-width:1"
+         id="rect2273"
+         width="43.341011"
+         height="43.341011"
+         x="184.76958"
+         y="19.200026" />
+      <path
+         id="path1589"
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none"
+         inkscape:transform-center-x="0.012831142"
+         inkscape:transform-center-y="-1.8277518"
+         d="m 206.33586,23.382454 -18.29668,13.353372 7.04602,21.527356 22.6515,-0.04881 6.95285,-21.557585 z m 0.0102,4.780843 13.80456,10.333164 -5.22886,16.146408 -17.02859,0.216574 -5.29958,-16.313802 z"
+         sodipodi:nodetypes="cccccccccccc" />
+    </g>
+    <g
+       id="g6060"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/hexagon.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       transform="translate(25.141846,-156.75815)">
+      <rect
+         style="opacity:1;fill:#000000;stroke:none;stroke-width:1"
+         id="rect2275"
+         width="43.341011"
+         height="43.341011"
+         x="232.96671"
+         y="19.03553" />
+      <path
+         id="path1788"
+         style="fill:#ffffff;stroke-width:5.60512"
+         inkscape:transform-center-x="5.5193883e-06"
+         inkscape:transform-center-y="-3.2617793e-06"
+         d="m 244.87753,23.802443 -9.75901,16.903373 9.75901,16.903814 h 19.51891 l 9.75945,-16.903814 -9.75945,-16.903373 z m 3.51392,6.085874 h 12.49107 l 6.24598,10.817499 -6.24598,10.817943 h -12.49107 l -6.24553,-10.817943 z" />
+    </g>
+    <g
+       id="g6518"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/heptagon.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       transform="translate(29.525622,-156.88391)">
+      <rect
+         style="opacity:1;fill:#000000;stroke:none;stroke-width:1"
+         id="rect2277"
+         width="43.341011"
+         height="43.341011"
+         x="286.5069"
+         y="19.161291" />
+      <path
+         id="path1892"
+         style="opacity:1;fill:#ffffff;stroke-width:6.00837"
+         inkscape:transform-center-x="-1.8945898e-06"
+         inkscape:transform-center-y="-0.99937507"
+         d="m 308.1774,21.648214 -15.77991,7.599018 -3.89691,17.074928 10.91972,13.693219 h 17.5142 L 327.85423,46.32216 323.95731,29.247232 Z m 0,6.129343 10.98743,5.291148 2.71407,11.889713 -7.60367,9.534818 h -12.19565 l -7.60368,-9.534818 2.71407,-11.889713 z" />
+    </g>
+    <g
+       id="g6837"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/octagon.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       transform="translate(35.896596,-159.16501)">
+      <rect
+         style="opacity:1;fill:#000000;stroke:none;stroke-width:1"
+         id="rect2279"
+         width="43.341011"
+         height="43.341011"
+         x="338.05991"
+         y="21.442396" />
+      <path
+         id="path2040"
+         style="opacity:1;fill:#ffffff;stroke-width:5.84546"
+         inkscape:transform-center-x="-8.1925228e-06"
+         inkscape:transform-center-y="4.9546972e-06"
+         d="m 366.91972,25.269234 -14.72298,0.142578 -10.30968,10.511485 0.14257,14.722968 10.51147,10.310307 14.72299,-0.142579 10.30967,-10.512088 -0.14256,-14.722366 z m -2.27945,5.657198 7.17904,7.041287 0.0973,10.055357 -7.04068,7.178427 -10.05539,0.09788 -7.179,-7.041286 -0.0973,-10.055361 7.04131,-7.179031 z" />
+    </g>
+    <g
+       id="g7234"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/nonagon.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       transform="translate(41.770623,-158.70879)">
+      <rect
+         style="opacity:1;fill:#000000;stroke:none;stroke-width:1"
+         id="rect2281"
+         width="43.341011"
+         height="43.341011"
+         x="390.10986"
+         y="20.986176" />
+      <path
+         id="path2144"
+         style="opacity:1;fill:#ffffff;stroke-width:5.88092"
+         inkscape:transform-center-x="0.026059178"
+         inkscape:transform-center-y="-0.55878756"
+         d="m 411.65661,23.833025 -12.42353,4.63124 -6.54069,11.533148 2.40348,13.038997 10.22262,8.443928 13.25811,-0.102836 10.09087,-8.601027 2.20088,-13.074652 -6.71793,-11.430828 z m 0.0476,6.12934 8.54263,3.03444 4.59404,7.816061 -1.50535,8.940022 -6.89983,5.881293 -9.0656,0.07028 -6.98974,-5.773809 -1.64333,-8.915733 4.4721,-7.885825 z" />
+    </g>
+    <g
+       id="g7521"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/decagon.png"
+       inkscape:export-xdpi="900"
+       inkscape:export-ydpi="900"
+       transform="translate(50.184383,-162.00368)">
+      <rect
+         style="opacity:1;fill:#000000;stroke:none;stroke-width:1"
+         id="rect2283"
+         width="43.341011"
+         height="43.341011"
+         x="439.62009"
+         y="24.281065" />
+      <path
+         id="path2248"
+         style="fill:#ffffff;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke:#ffffff"
+         inkscape:transform-center-x="-6.5883626e-06"
+         inkscape:transform-center-y="-9.1575927e-06"
+         d="m 467.06284,28.30115 -11.47687,-0.02212 -9.29853,6.728492 -3.56723,10.908402 3.52551,10.922423 9.27209,6.763629 11.47739,0.02213 9.29801,-6.728506 3.56775,-10.908388 -3.52602,-10.921921 z m -1.41004,4.312198 7.00686,5.111257 2.6641,8.253728 -2.69564,8.24373 -7.02658,5.084486 -8.67317,-0.01676 -7.00739,-5.111273 -2.66409,-8.253728 2.69564,-8.243731 7.02657,-5.084483 z" />
+    </g>
+    <g
+       id="g4258"
+       inkscape:export-filename="/Users/cefgoose/Documents/NEWGEM/static/shapes/circle.png"
+       inkscape:export-xdpi="900"
+       inkscape:export-ydpi="900"
+       transform="translate(4.954156,-173.73473)">
+      <rect
+         style="opacity:1;fill:#000000;stroke:none;stroke-width:1"
+         id="rect2167"
+         width="43.341011"
+         height="43.341011"
+         x="79.382492"
+         y="36.012115" />
+      <path
+         id="path954"
+         style="opacity:1;fill:#ffffff;stroke:#ffffff;stroke-width:2.6;stroke-miterlimit:4;stroke-dasharray:none"
+         d="M 101.053,42.22982 A 16.102238,15.452953 0 0 0 84.95062,57.682624 16.102238,15.452953 0 0 0 101.053,73.135425 16.102238,15.452953 0 0 0 117.15538,57.682624 16.102238,15.452953 0 0 0 101.053,42.22982 Z m 0,4.242117 A 11.809871,11.210831 0 0 1 112.86313,57.682624 11.809871,11.210831 0 0 1 101.053,68.893308 11.809871,11.210831 0 0 1 89.243382,57.682624 11.809871,11.210831 0 0 1 101.053,46.471937 Z" />
+    </g>
+  </g>
+</svg>
