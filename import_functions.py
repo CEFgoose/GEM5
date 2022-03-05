@@ -18,11 +18,9 @@ def importCssFile(main):
     except Exception as e:
         print(e)
 
-
 def import_proceed(main, inCSS):
     parse_mapcss_text(main,str(inCSS))
     # construct_table(parsed_users)
-
 
 def parse_mapcss_text(main, inCSS):
     original_text = str(inCSS)
@@ -32,9 +30,9 @@ def parse_mapcss_text(main, inCSS):
         "",
         re.sub(r"//.*?\\n", " ", re.sub(r"/\*.*?\*/", " ", text_no_newline)),
     )
-    main.teamNameField.setText(parse_team_from_mapcss(text_no_newline))
+    parse_team_from_mapcss(main,text_no_newline)
     parse_users_from_mapcss(main,str(original_text))
-
+    parse_unuploaded_data_from_mapcss(main,original_text)
 
 def parse_users_from_mapcss(main,mapcss_text):
     editor_info=mapcss_text.split('/* USER SEARCH SETTINGS */')
@@ -55,28 +53,24 @@ def parse_users_from_mapcss(main,mapcss_text):
     for editor in main.currentEditors.values():
         editor.construct_list_item(main)
 
-def parse_team_from_mapcss(mapcss_text):
+def parse_team_from_mapcss(main,mapcss_text):
     title = re.findall(r"title: \"(.*?)\"", mapcss_text)
     teamname = title[0]
-    return teamname
+    main.teamNameField.setText(teamname)
 
-# def construct_table(main, parsed_users):
-#     for user in parsed_users:
-#         main.editorTable        
-#             self.ADDUSERS.append(CONSTRUCTOR)
-#             self.GEMarray[self.usercount][0] = str(CONSTRUCTOR.NAME)
-#             self.GEMarray[self.usercount][1] = str(CONSTRUCTOR.UID)
-#             self.GEMarray[self.usercount][2] = QtGui.QColor(CONSTRUCTOR.LINECOLORUI)
-#             self.EDITORNODECOLORDISPLAY(self.usercount)
-#             self.pix.fill(QColor(self.TEAMNODECOLORUI))
-#             self.TEAMNODECOLORICON.setPixmap(self.pix)
-#             self.TEAMNODECOLORICON.repaint()
-#             self.TEAMLINEWIDTHSPIN.setValue(int(self.LINEWIDTH))
-#             self.TEAMICONSIZESPIN.setValue(int(self.ICONSIZE))
-#             self.pix.fill(QColor(self.TEAMLINECOLORUI))
-#             self.TEAMLINECOLORICON.setPixmap(self.pix)
-#             self.TEAMLINECOLORICON.repaint()
-#             self.usercount += 1
-#             self.TABLE.resizeColumnsToContents()
-#             self.TABLE.resizeRowsToContents()
+def parse_unuploaded_data_from_mapcss(main,mapcss_text):
+    unup_info=mapcss_text.split('/* MODIFIED BUT NOT UPLOADED LAYER STYLE */')[1]
+    main.unup_node_shape=unup_info.split('symbol-shape: ')[1].split(';')[0]
+    main.unup_node_color=QColor(unup_info.split('symbol-stroke-color: ')[1].split(';')[0])
+    main.unup_node_size=unup_info.split('symbol-size: ')[1].split(';')[0]
+    main.unup_line_color=QColor(unup_info.split('casing-color: ')[1].split(';')[0])
+    main.unup_line_width=unup_info.split('casing-width: ')[1].split(';')[0]
+    main.unupLineWidthSpinner.setValue(int(main.unup_line_width))
+    main.unupNodeWidthSpinner.setValue(int(main.unup_node_size))
+    main.unupLineColorpix.fill(main.unup_line_color)
+    main.unupLineColorPreview.setPixmap(main.unupLineColorpix)
+    main.unupNodeColorpix.fill(main.unup_node_color)
+    main.unupNodeColorPreview.setPixmap(main.unupNodeColorpix)
+
+
             

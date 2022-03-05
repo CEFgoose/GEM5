@@ -106,7 +106,7 @@ class MainWindow(QMainWindow):
         self.unupLineColorControlsLayout.addWidget(self.unupLineColorButton)
 
         self.unupLineColorPreview=QLabel()
-        self.unupLineColorpix = QtGui.QPixmap(15, 15)
+        self.unupLineColorpix = QPixmap(15, 15)
         self.unupLineColorpix.fill(QColor(WHITE))
         self.unupLineColorPreview.setPixmap(self.unupLineColorpix)
         self.unupLineColorControlsLayout.addWidget(self.unupLineColorPreview)
@@ -118,7 +118,7 @@ class MainWindow(QMainWindow):
         self.unupLineWidthSpinner=QSpinBox()
         self.unupLineWidthSpinner.setRange(1, 20)
         self.unupLineColorControlsLayout.addWidget(self.unupLineWidthSpinner)
-        #---LINE WIDTH
+        #---NODE SIZE
 
         self.unupNodeColorControls=QWidget()
         self.unupNodeColorControlsLayout=QHBoxLayout()
@@ -130,7 +130,7 @@ class MainWindow(QMainWindow):
         self.unupNodeColorControlsLayout.addWidget(self.unupNodeColorButton)
 
         self.unupNodeColorPreview=QLabel()
-        self.unupNodeColorpix = QtGui.QPixmap(15, 15)
+        self.unupNodeColorpix = QPixmap(15, 15)
         self.unupNodeColorpix.fill(QColor(WHITE))
         self.unupNodeColorPreview.setPixmap(self.unupNodeColorpix)
         self.unupNodeColorControlsLayout.addWidget(self.unupNodeColorPreview)
