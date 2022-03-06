@@ -16,6 +16,7 @@ from PyQt5.QtWidgets import *
 from settings import *
 from import_functions import *
 from unuploaded_functions import *
+from editor_functions import *
 from shape_select_widget import *
 from list_functions import *
 #----------------------MAIN WINDOW CLASS----------------------------
@@ -32,6 +33,7 @@ class MainWindow(QMainWindow):
         self.currentEditors={}
         self.currentEditorsOrdered=[]
         self.selectedEditors=[]
+        self.editor_UID_toggled=False
         self.unup_node_size=0
         self.unup_line_width=0
         self.unup_line_color_text=''
@@ -39,6 +41,13 @@ class MainWindow(QMainWindow):
         self.unup_node_color_text=''
         self.unup_node_color_ui=QColor(BLACK)
  
+        self.editor_line_width=0
+        self.editor_node_size=0
+        self.editor_line_color_text=''
+        self.editor_line_color_ui=QColor(BLACK)
+        self.editor_node_color_text=''
+        self.editor_node_color_ui=QColor(BLACK)
+
         ##-----------------QICONS & QPIXMAPS--------------------------
         # self.kaartLogo='static/icons/kaart.png'
         # self.gemLogo='static/icons/GEM.png'
@@ -157,6 +166,7 @@ class MainWindow(QMainWindow):
         self.editorSettingsBoxLayout.addWidget(self.editorNameLabel,0,0)
 
         self.editorNameField=QLineEdit()
+        self.editorNameField.textChanged.connect(lambda:editor_name_changed(self,self.editorNameField.text()))
         self.editorSettingsBoxLayout.addWidget(self.editorNameField,0,1,1,3)
 
         # #---EDITOR USERNAME
@@ -166,6 +176,7 @@ class MainWindow(QMainWindow):
         self.editorSettingsBoxLayout.addWidget(self.editorUsernameLabel,1,0)
 
         self.editorUsernameField=QLineEdit()
+        self.editorUsernameField.textChanged.connect(lambda:editor_username_changed(self,self.editorUsernameField.text()))
         self.editorSettingsBoxLayout.addWidget(self.editorUsernameField,1,1,1,3)
 
         # #--ADD/CLEAR/EDIT EDITOR SETTINGS BUTTONS
@@ -179,6 +190,7 @@ class MainWindow(QMainWindow):
 
         self.addEditorButton=QPushButton()
         self.addEditorButton.setText('ADD')
+        self.addEditorButton.clicked.connect(lambda:add_new_editor(self))
         self.addEditorButton.setMaximumWidth(80)
         self.editorButtonLayout.addWidget(self.addEditorButton)
 
@@ -199,15 +211,16 @@ class MainWindow(QMainWindow):
 
 
         self.editorLineColorButton=QPushButton()
-        self.editorLineColorButton.setText("LINE COLOR")      
+        self.editorLineColorButton.setText("LINE COLOR")  
+        self.editorLineColorButton.clicked.connect(lambda:editor_linecolor_changed(self))    
         self.editorSettingsBoxLayout.addWidget(self.editorLineColorButton,3,0)
 
 
-        self.editorNodeColorPreview=QLabel()
-        self.editorNodeColorpix = QtGui.QPixmap(15, 15)
-        self.editorNodeColorpix.fill(QColor(WHITE))
-        self.editorNodeColorPreview.setPixmap(self.editorNodeColorpix)
-        self.editorSettingsBoxLayout.addWidget(self.editorNodeColorPreview,3,1,Qt.AlignmentFlag.AlignCenter)
+        self.editorLineColorPreview=QLabel()
+        self.editorLineColorpix = QtGui.QPixmap(15, 15)
+        self.editorLineColorpix.fill(QColor(WHITE))
+        self.editorLineColorPreview.setPixmap(self.editorLineColorpix)
+        self.editorSettingsBoxLayout.addWidget(self.editorLineColorPreview,3,1,Qt.AlignmentFlag.AlignCenter)
 
         self.editorLineWidthLabel=QLabel()
         self.editorLineWidthLabel.setText('LINE WIDTH:')  
@@ -216,12 +229,14 @@ class MainWindow(QMainWindow):
         self.editorLineWidthSpinner=QSpinBox()
         self.editorLineWidthSpinner.setRange(1, 20)
         self.editorLineWidthSpinner.setValue(5)
+        self.editorLineWidthSpinner.valueChanged.connect(lambda:editor_linewidth_changed(self,self.editorLineWidthSpinner.value()))
         self.editorSettingsBoxLayout.addWidget(self.editorLineWidthSpinner,3,3)         
 
         # #---EDITOR NODE HIGHLIGHT SETTINGS
 
         self.editorNodeColorButton=QPushButton()
         self.editorNodeColorButton.setText('NODE COLOR')
+        self.editorNodeColorButton.clicked.connect(lambda:editor_nodecolor_changed(self))
         self.editorSettingsBoxLayout.addWidget(self.editorNodeColorButton,4,0)
 
         self.editorNodeColorPreview=QLabel()
@@ -237,6 +252,7 @@ class MainWindow(QMainWindow):
         self.editorNodeWidthSpinner=QSpinBox()
         self.editorNodeWidthSpinner.setRange(1, 20)
         self.editorNodeWidthSpinner.setValue(10)
+        self.editorNodeWidthSpinner.valueChanged.connect(lambda:editor_nodesize_changed(self,self.editorNodeWidthSpinner.value()))
         self.editorSettingsBoxLayout.addWidget(self.editorNodeWidthSpinner,4,3)            
 
         # #---TOGGLE UID BUTTON
@@ -246,12 +262,14 @@ class MainWindow(QMainWindow):
         self.editorSettingsBoxLayout.addWidget(self.toggleUIDLabel,5,2,Qt.AlignmentFlag.AlignCenter)
 
         self.toggleUIDCheckbox=QCheckBox()
+        self.toggleUIDCheckbox.clicked.connect(lambda:editor_uid_toggled(self))
         self.editorSettingsBoxLayout.addWidget(self.toggleUIDCheckbox,5,3,Qt.AlignmentFlag.AlignCenter)        
     
         # #---EDITOR NODE SHAPE SETTINGS
 
         self.editorNodeShapeSelectButton=QPushButton()
         self.editorNodeShapeSelectButton.setText('NODE SHAPE')
+        self.editorNodeShapeSelectButton.clicked.connect(lambda:shapeSelectWidget(self,'editor'))
         self.editorSettingsBoxLayout.addWidget(self.editorNodeShapeSelectButton,5,0)
 
         self.editorNodeShapePreview = QLabel()

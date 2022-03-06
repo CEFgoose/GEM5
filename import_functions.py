@@ -52,7 +52,7 @@ def parse_users_from_mapcss(main,mapcss_text):
         main.currentEditorsOrdered.append(editor)
         editor.listIndex=main.currentEditorsOrdered.index(editor)
         # main.currentEditors[editor.username]=editor
-        
+    main.editorTable.clear()
     for editor in main.currentEditorsOrdered:
         editor.construct_list_item(main)
 

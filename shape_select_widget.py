@@ -66,3 +66,11 @@ def setShape(main,shape,select):
         main.unupNodeShapePixmap.setMask(main.unupNodeShapeMask)
         main.unupNodeShapePixmap=main.unupNodeShapePixmap.scaled(20,20)
         main.unupNodeShapePreview.setPixmap(main.unupNodeShapePixmap)
+    elif select =="editor":
+        main.editor_node_shape=shape
+        main.editorNodeShapePixmap=QPixmap(allShapes[shape])
+        main.editorNodeShapeMask = main.editorNodeShapePixmap.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
+        main.editorNodeShapePixmap.fill(main.editor_node_color_ui)
+        main.editorNodeShapePixmap.setMask(main.editorNodeShapeMask)
+        main.editorNodeShapePixmap=main.editorNodeShapePixmap.scaled(20,20)
+        main.editorNodeShapePreview.setPixmap(main.editorNodeShapePixmap)      
