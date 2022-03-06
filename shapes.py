@@ -31,6 +31,29 @@ allShapes['octagon']=OCTAGON
 allShapes['nonagon']=NONAGON
 allShapes['decagon']=DECAGON
 
+
+
+
+CIRCLEBUTTON=("static/shapes/circleButton.png")
+SQUAREBUTTON=("static/shapes/squareButton.png")
+TRIANGLEBUTTON =("static/shapes/triangleButton.png")
+PENTAGONBUTTON=("static/shapes/pentagonButton.png")
+HEXAGONBUTTON =("static/shapes/hexagonButton.png")
+HEPTAGONBUTTON=("static/shapes/heptagonButton.png")
+OCTAGONBUTTON=("static/shapes/octagonButton.png")
+NONAGONBUTTON =("static/shapes/nonagonButton.png")
+DECAGONBUTTON=("static/shapes/decagonButton.png")
+
+allButtonShapes={}
+allButtonShapes['circle']=CIRCLEBUTTON
+allButtonShapes['triangle']=TRIANGLEBUTTON
+allButtonShapes['square']=SQUAREBUTTON
+allButtonShapes['pentagon']=PENTAGONBUTTON
+allButtonShapes['hexagon']=HEXAGONBUTTON
+allButtonShapes['heptagon']=HEPTAGONBUTTON
+allButtonShapes['octagon']=OCTAGONBUTTON
+allButtonShapes['nonagon']=NONAGONBUTTON
+allButtonShapes['decagon']=DECAGONBUTTON
 # CIRCLE = resource_path('circle.png')
 # SQUARE = resource_path('square.png')
 # TRIANGLE = resource_path('triangle.png')

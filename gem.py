@@ -15,6 +15,8 @@ from PyQt5.QtGui import QColor, QIcon
 from PyQt5.QtWidgets import *
 from settings import *
 from import_functions import *
+from unuploaded_functions import *
+from shape_select_widget import *
 #----------------------MAIN WINDOW CLASS----------------------------
 
 class MainWindow(QMainWindow):
@@ -27,11 +29,19 @@ class MainWindow(QMainWindow):
         self.filters = ""
         self.select_filters = "MAPCSS (*.mapcss)"
         self.currentEditors={}
+        self.unup_node_size=0
+        self.unup_line_width=0
+        self.unup_line_color_text=''
+        self.unup_line_color_ui=QColor(BLACK)
+        self.unup_node_color_text=''
+        self.unup_node_color_ui=QColor(BLACK)
+ 
         ##-----------------QICONS & QPIXMAPS--------------------------
-        self.kaartLogo='static/icons/kaart.png'
-        self.gemLogo='static/icons/GEM.png'
-        self.gemIcon  = QtGui.QIcon(self.gemLogo)    
-        self.kaartIcon  = QtGui.QIcon(self.kaartLogo)
+        # self.kaartLogo='static/icons/kaart.png'
+        # self.gemLogo='static/icons/GEM.png'
+        # self.gemIcon  = QtGui.QIcon(self.gemLogo)    
+        # self.kaartIcon  = QtGui.QIcon(self.kaartLogo)
+        self.unup_shape=QPixmap(15,15)
         ##----------------GUI SETUP---------------------------------
 
         self.mainWidget=QWidget()
@@ -39,23 +49,7 @@ class MainWindow(QMainWindow):
         self.mainWidgetLayout.addStretch(1)
         self.mainWidget.setLayout(self.mainWidgetLayout)
         self.setCentralWidget(self.mainWidget)
-        ##-----------------------TOP BAR W/ LINK BUTTONS------------
-        self.topBar=QWidget()
 
-        self.topBar.setMaximumHeight(40)
-        self.topBarLayout=QHBoxLayout()
-        self.topBarLayout.setSpacing(0)
-        self.topBar.setLayout(self.topBarLayout)
-
-        self.kaartLinkButton=QPushButton()
-        self.kaartLinkButton.setIcon(self.kaartIcon)
-        self.topBarLayout.addWidget(self.kaartLinkButton)
-
-        self.gemLinkButton=QPushButton()
-        self.gemLinkButton.setIcon(self.gemIcon)
-        self.topBarLayout.addWidget(self.gemLinkButton)
-
-        self.mainWidgetLayout.addWidget(self.topBar)
 
         ##----------------------CONTROLS AND TABLE SPLITTER---------
         
@@ -83,290 +77,233 @@ class MainWindow(QMainWindow):
         self.controlsWidgetLayout.addWidget(self.teamNameBox)
 
         self.teamNameField=QLineEdit()
-        self.teamNameBoxLayout.addWidget(self.teamNameField)
+        self.teamNameBoxLayout.addWidget(self.teamNameField,0,0)
 
         ##--------------------NON UPLOADED HIGHLIGHTS---------------
 
         self.notUploadedBox=QGroupBox()
         self.notUploadedBox.setTitle("Highlights for non-uploaded changes")
-        self.notUploadedBoxLayout=QVBoxLayout()
-        self.notUploadedBoxLayout.addStretch(1)
+        self.notUploadedBoxLayout=QGridLayout()
+        # self.notUploadedBoxLayout.addStretch(1)
         self.notUploadedBoxLayout.setSpacing(0)
         self.notUploadedBox.setLayout(self.notUploadedBoxLayout)
         self.controlsWidgetLayout.addWidget(self.notUploadedBox)
 
-        #---LINE COLOR
-        self.unupLineColorControls=QWidget()
-        self.unupLineColorControlsLayout=QHBoxLayout()
-        self.unupLineColorControls.setLayout(self.unupLineColorControlsLayout)
-        self.notUploadedBoxLayout.addWidget(self.unupLineColorControls)
-
         self.unupLineColorButton=QPushButton()
         self.unupLineColorButton.setText('LINE COLOR')
-        self.unupLineColorControlsLayout.addWidget(self.unupLineColorButton)
+        self.unupLineColorButton.clicked.connect(lambda:unup_linecolor_changed(self))
+        self.notUploadedBoxLayout.addWidget(self.unupLineColorButton,0,0)
 
         self.unupLineColorPreview=QLabel()
         self.unupLineColorpix = QPixmap(15, 15)
         self.unupLineColorpix.fill(QColor(WHITE))
         self.unupLineColorPreview.setPixmap(self.unupLineColorpix)
-        self.unupLineColorControlsLayout.addWidget(self.unupLineColorPreview)
+        self.notUploadedBoxLayout.addWidget(self.unupLineColorPreview,0,1,Qt.AlignmentFlag.AlignCenter)
 
         self.unupLineWidthLabel=QLabel()
         self.unupLineWidthLabel.setText("Line Width")
-        self.unupLineColorControlsLayout.addWidget(self.unupLineWidthLabel)
+        self.notUploadedBoxLayout.addWidget(self.unupLineWidthLabel,0,2)
 
         self.unupLineWidthSpinner=QSpinBox()
         self.unupLineWidthSpinner.setRange(1, 20)
-        self.unupLineColorControlsLayout.addWidget(self.unupLineWidthSpinner)
-        #---NODE SIZE
-
-        self.unupNodeColorControls=QWidget()
-        self.unupNodeColorControlsLayout=QHBoxLayout()
-        self.unupNodeColorControls.setLayout(self.unupNodeColorControlsLayout)
-        self.notUploadedBoxLayout.addWidget(self.unupNodeColorControls)
+        self.unupLineWidthSpinner.setValue(0)
+        self.unupLineWidthSpinner.valueChanged.connect(lambda:unup_linewidth_changed(self,self.unupLineWidthSpinner.value()))
+        self.notUploadedBoxLayout.addWidget(self.unupLineWidthSpinner,0,3)
+        #---NODE SIZE)
 
         self.unupNodeColorButton=QPushButton()
         self.unupNodeColorButton.setText('NODE COLOR')
-        self.unupNodeColorControlsLayout.addWidget(self.unupNodeColorButton)
+        self.unupNodeColorButton.clicked.connect(lambda:unup_nodecolor_changed(self))
+        self.notUploadedBoxLayout.addWidget(self.unupNodeColorButton,1,0)
 
         self.unupNodeColorPreview=QLabel()
         self.unupNodeColorpix = QPixmap(15, 15)
         self.unupNodeColorpix.fill(QColor(WHITE))
         self.unupNodeColorPreview.setPixmap(self.unupNodeColorpix)
-        self.unupNodeColorControlsLayout.addWidget(self.unupNodeColorPreview)
+        self.notUploadedBoxLayout.addWidget(self.unupNodeColorPreview,1,1,Qt.AlignmentFlag.AlignCenter)
 
         self.unupNodeWidthLabel=QLabel()
         self.unupNodeWidthLabel.setText("Node Size")
-        self.unupNodeColorControlsLayout.addWidget(self.unupNodeWidthLabel)
+        self.notUploadedBoxLayout.addWidget(self.unupNodeWidthLabel,1,2)
 
         self.unupNodeWidthSpinner=QSpinBox()
         self.unupNodeWidthSpinner.setRange(1, 20)
-        self.unupNodeColorControlsLayout.addWidget(self.unupNodeWidthSpinner)
+        self.unupNodeWidthSpinner.setValue(0)
+        self.unupNodeWidthSpinner.valueChanged.connect(lambda:unup_nodesize_changed(self,self.unupNodeWidthSpinner.value()))
+        self.notUploadedBoxLayout.addWidget(self.unupNodeWidthSpinner,1,3)
        
-        #---NODE SHAPE
+        # #---NODE SHAPE
 
-        self.unupNodeShapeControls=QWidget()
-        self.unupNodeShapeControlsLayout=QHBoxLayout()
-        self.unupNodeShapeControls.setLayout(self.unupNodeShapeControlsLayout)
-        self.notUploadedBoxLayout.addWidget(self.unupNodeShapeControls)
+        self.unupNodeShapeButton=QPushButton()
+        self.unupNodeShapeButton.setText('NODE SHAPE')
+        self.unupNodeShapeButton.clicked.connect(lambda:shapeSelectWidget(self,'unup'))
+        self.notUploadedBoxLayout.addWidget(self.unupNodeShapeButton,2,0)
 
-        self.unupNodeShapeLabel=QLabel()
-        self.unupNodeShapeLabel.setText('Node Shape')
-        self.unupNodeShapeControlsLayout.addWidget(self.unupNodeShapeLabel)
-
-        self.unupNodeShapePreview=QPushButton()
-        self.unupNodeShapePreview.resize(35, 30)
-        self.unupNodeShapeControlsLayout.addWidget(self.unupNodeShapePreview)
-
-        self.unupNodeShapeSelectButton=QPushButton()
-        self.unupNodeShapeSelectButton.setText('SELECT SHAPE')   
-        self.unupNodeShapeControlsLayout.addWidget(self.unupNodeShapeSelectButton)   
-
+        self.unupNodeShapePreview=QLabel()
+        self.unupNodeShapePix=QPixmap(15,15)
+        self.unupNodeShapePreview.setPixmap(self.unupNodeShapePix)
+        self.notUploadedBoxLayout.addWidget(self.unupNodeShapePreview,2,1,Qt.AlignmentFlag.AlignCenter)
 
         ##--------------------EDITOR HIGHLIGHT SETTINGS---------------
 
         self.editorSettingsBox=QGroupBox()
         self.editorSettingsBox.setTitle("Editor Highlights")
-        self.editorSettingsBoxLayout=QVBoxLayout()
+        self.editorSettingsBoxLayout=QGridLayout()
 
-        self.editorSettingsBoxLayout.addStretch(1)
-        self.editorSettingsBoxLayout.setSpacing(0)
-        
         self.editorSettingsBox.setLayout(self.editorSettingsBoxLayout)
         self.controlsWidgetLayout.addWidget(self.editorSettingsBox)
 
         #---EDITOR NAME
-        self.editorNameWidget=QWidget()
-        self.editorNameWidgetLayout=QHBoxLayout()
-        self.editorNameWidget.setLayout(self.editorNameWidgetLayout)
-        self.editorSettingsBoxLayout.addWidget(self.editorNameWidget)
 
         self.editorNameLabel=QLabel()
         self.editorNameLabel.setText('Editor Name')
-        self.editorNameWidgetLayout.addWidget(self.editorNameLabel)
+        self.editorSettingsBoxLayout.addWidget(self.editorNameLabel,0,0)
 
         self.editorNameField=QLineEdit()
-        self.editorNameWidgetLayout.addWidget(self.editorNameField)
+        self.editorSettingsBoxLayout.addWidget(self.editorNameField,0,1,1,3)
 
-        #---EDITOR USERNAME
-        self.editorUsernameWidget=QWidget()
-        self.editorUsernameWidgetLayout=QHBoxLayout()
-        self.editorUsernameWidget.setLayout(self.editorUsernameWidgetLayout)
-        self.editorSettingsBoxLayout.addWidget(self.editorUsernameWidget)
+        # #---EDITOR USERNAME
 
         self.editorUsernameLabel=QLabel()
         self.editorUsernameLabel.setText('OSM Username')
-        self.editorUsernameWidgetLayout.addWidget(self.editorUsernameLabel)
+        self.editorSettingsBoxLayout.addWidget(self.editorUsernameLabel,1,0)
 
         self.editorUsernameField=QLineEdit()
-        self.editorUsernameWidgetLayout.addWidget(self.editorUsernameField)
+        self.editorSettingsBoxLayout.addWidget(self.editorUsernameField,1,1,1,3)
 
-        #--ADD/CLEAR/EDIT EDITOR SETTINGS BUTTONS
+        # #--ADD/CLEAR/EDIT EDITOR SETTINGS BUTTONS
 
-        self.editorButtonsWidget=QWidget()
-        self.editorButtonsWidgetLayout=QHBoxLayout()
-        self.editorButtonsWidget.setLayout(self.editorButtonsWidgetLayout)
-        self.editorSettingsBoxLayout.addWidget(self.editorButtonsWidget)
+        self.editorButtonWidget=QWidget()
+        self.editorButtonLayout=QHBoxLayout()
+        self.editorButtonLayout.setContentsMargins(0,0,0,0)
+        self.editorButtonLayout.setSpacing(0)
+        self.editorButtonWidget.setLayout(self.editorButtonLayout)
+        self.editorSettingsBoxLayout.addWidget(self.editorButtonWidget,2,0,1,4)
 
         self.addEditorButton=QPushButton()
         self.addEditorButton.setText('ADD')
-        self.editorButtonsWidgetLayout.addWidget(self.addEditorButton)
+        self.addEditorButton.setMaximumWidth(80)
+        self.editorButtonLayout.addWidget(self.addEditorButton)
 
         self.clearEditorButton=QPushButton()
         self.clearEditorButton.setText('CLEAR')
-        self.editorButtonsWidgetLayout.addWidget(self.clearEditorButton)
+        self.clearEditorButton.setMaximumWidth(80)
+        self.editorButtonLayout.addWidget(self.clearEditorButton)
 
         self.editEditorButton=QPushButton()
         self.editEditorButton.setText('EDIT')
-        self.editorButtonsWidgetLayout.addWidget(self.editEditorButton)
+        self.editEditorButton.setMaximumWidth(80)
+        self.editorButtonLayout.addWidget(self.editEditorButton)
 
 
-        #--EDITOR LINE SETTINGS
+        # #--EDITOR LINE SETTINGS
 
 
-        self.editorLineSettingsWidget=QWidget()
-        self.editorLineSettingsWidgetLayout=QHBoxLayout()
-        self.editorLineSettingsWidget.setLayout(self.editorLineSettingsWidgetLayout)
-        self.editorSettingsBoxLayout.addWidget(self.editorLineSettingsWidget)
 
 
         self.editorLineColorButton=QPushButton()
         self.editorLineColorButton.setText("LINE COLOR")      
-        self.editorLineSettingsWidgetLayout.addWidget(self.editorLineColorButton)
+        self.editorSettingsBoxLayout.addWidget(self.editorLineColorButton,3,0)
 
 
         self.editorNodeColorPreview=QLabel()
         self.editorNodeColorpix = QtGui.QPixmap(15, 15)
         self.editorNodeColorpix.fill(QColor(WHITE))
         self.editorNodeColorPreview.setPixmap(self.editorNodeColorpix)
-        self.editorLineSettingsWidgetLayout.addWidget(self.editorNodeColorPreview)
+        self.editorSettingsBoxLayout.addWidget(self.editorNodeColorPreview,3,1,Qt.AlignmentFlag.AlignCenter)
 
         self.editorLineWidthLabel=QLabel()
-        self.editorLineWidthLabel.setText('Line Width')  
-        self.editorLineSettingsWidgetLayout.addWidget(self.editorLineWidthLabel) 
+        self.editorLineWidthLabel.setText('LINE WIDTH:')  
+        self.editorSettingsBoxLayout.addWidget(self.editorLineWidthLabel,3,2) 
 
         self.editorLineWidthSpinner=QSpinBox()
         self.editorLineWidthSpinner.setRange(1, 20)
         self.editorLineWidthSpinner.setValue(5)
-        self.editorLineSettingsWidgetLayout.addWidget(self.editorLineWidthSpinner)         
+        self.editorSettingsBoxLayout.addWidget(self.editorLineWidthSpinner,3,3)         
 
-        #---EDITOR NODE HIGHLIGHT SETTINGS
-
-
-        self.editorNodeSettingsWidget=QWidget()
-        self.editorNodeSettingsWidgetLayout=QHBoxLayout()
-        self.editorNodeSettingsWidget.setLayout(self.editorNodeSettingsWidgetLayout)
-        self.editorSettingsBoxLayout.addWidget(self.editorNodeSettingsWidget)
+        # #---EDITOR NODE HIGHLIGHT SETTINGS
 
         self.editorNodeColorButton=QPushButton()
         self.editorNodeColorButton.setText('NODE COLOR')
-        self.editorNodeSettingsWidgetLayout.addWidget(self.editorNodeColorButton)
+        self.editorSettingsBoxLayout.addWidget(self.editorNodeColorButton,4,0)
 
         self.editorNodeColorPreview=QLabel()
         self.editorNodeColorpix = QtGui.QPixmap(15, 15)
         self.editorNodeColorpix.fill(QColor(WHITE))
         self.editorNodeColorPreview.setPixmap(self.editorNodeColorpix)
-        self.editorNodeSettingsWidgetLayout.addWidget(self.editorNodeColorPreview)
+        self.editorSettingsBoxLayout.addWidget(self.editorNodeColorPreview,4,1,Qt.AlignmentFlag.AlignCenter)
 
         self.editorNodeWidthLabel=QLabel()
-        self.editorNodeWidthLabel.setText('Node Width')  
-        self.editorNodeSettingsWidgetLayout.addWidget(self.editorNodeWidthLabel) 
+        self.editorNodeWidthLabel.setText('NODE WIDTH:')  
+        self.editorSettingsBoxLayout.addWidget(self.editorNodeWidthLabel,4,2) 
 
         self.editorNodeWidthSpinner=QSpinBox()
         self.editorNodeWidthSpinner.setRange(1, 20)
         self.editorNodeWidthSpinner.setValue(10)
-        self.editorNodeSettingsWidgetLayout.addWidget(self.editorNodeWidthSpinner)            
+        self.editorSettingsBoxLayout.addWidget(self.editorNodeWidthSpinner,4,3)            
 
-        #---TOGGLE UID BUTTON
-        self.toggleUIDWidget=QWidget()
-        self.toggleUIDWidgetLayout=QHBoxLayout()
-        self.toggleUIDWidget.setLayout(self.toggleUIDWidgetLayout)
-        self.editorSettingsBoxLayout.addWidget(self.toggleUIDWidget)
+        # #---TOGGLE UID BUTTON
 
         self.toggleUIDLabel=QLabel()
-        self.toggleUIDLabel.setText('Toggle UID in JOSM style settings menu')
-        self.toggleUIDWidgetLayout.addWidget(self.toggleUIDLabel)
+        self.toggleUIDLabel.setText('Toggle UID:')
+        self.editorSettingsBoxLayout.addWidget(self.toggleUIDLabel,5,2,Qt.AlignmentFlag.AlignCenter)
 
         self.toggleUIDCheckbox=QCheckBox()
-        self.toggleUIDWidgetLayout.addWidget(self.toggleUIDCheckbox)        
+        self.editorSettingsBoxLayout.addWidget(self.toggleUIDCheckbox,5,3,Qt.AlignmentFlag.AlignCenter)        
     
-        #---EDITOR NODE SHAPE SETTINGS
-
-        self.editorNodeShapeWidget=QWidget()
-        self.editorNodeShapeWidgetLayout=QHBoxLayout()
-        self.editorNodeShapeWidget.setLayout(self.editorNodeShapeWidgetLayout)
-        self.editorSettingsBoxLayout.addWidget(self.editorNodeShapeWidget)  
-
-        self.editorNodeShapeLabel=QLabel()
-        self.editorNodeShapeLabel.setText('Node Shape:')
-        self.editorNodeShapeWidgetLayout.addWidget(self.editorNodeShapeLabel)
-
-        self.editorNodeShapePreview = QPushButton()
-        self.editorNodeShapePreview.resize(30, 30)
-        self.editorNodeShapeWidgetLayout.addWidget(self.editorNodeShapePreview)
+        # #---EDITOR NODE SHAPE SETTINGS
 
         self.editorNodeShapeSelectButton=QPushButton()
-        self.editorNodeShapeSelectButton.setText('SELECT SHAPE')
-        self.editorNodeShapeWidgetLayout.addWidget(self.editorNodeShapeSelectButton)
+        self.editorNodeShapeSelectButton.setText('NODE SHAPE')
+        self.editorSettingsBoxLayout.addWidget(self.editorNodeShapeSelectButton,5,0)
 
-        ##--------------------TIME SEARCH SETTINGS--------------------
+        self.editorNodeShapePreview = QLabel()
+        self.editorNodeShapePix=QPixmap(15,15)
+        self.editorNodeShapePreview.setPixmap(self.editorNodeShapePix)
+        self.editorSettingsBoxLayout.addWidget(self.editorNodeShapePreview,5,1)
+
+        # ##--------------------TIME SEARCH SETTINGS--------------------
 
         self.timeSearchBox=QGroupBox()
         self.timeSearchBox.setTitle("Time Search")
-        self.timeSearchBoxLayout=QVBoxLayout()
-
-
-        self.timeSearchBoxLayout.addStretch(1)
-        self.timeSearchBoxLayout.setSpacing(0)
+        self.timeSearchBoxLayout=QGridLayout()
 
         self.timeSearchBox.setLayout(self.timeSearchBoxLayout)
         self.controlsWidgetLayout.addWidget(self.timeSearchBox)
 
         #---OPEN CALENDAR WIDGET
 
-        self.openCalendarWidget=QWidget()
-        self.openCalendarWidgetLayout=QHBoxLayout()
-        self.openCalendarWidget.setLayout(self.openCalendarWidgetLayout)
-        self.timeSearchBoxLayout.addWidget(self.openCalendarWidget)  
 
         self.openCalendarButton=QPushButton()
         self.openCalendarButton.setText('OPEN CALENDAR')
-        self.openCalendarWidgetLayout.addWidget(self.openCalendarButton) 
+        self.timeSearchBoxLayout.addWidget(self.openCalendarButton,0,0,1,2) 
 
         #---START DATE WIDGET
 
-        self.startDateWidget=QWidget()
-        self.startDateWidgetLayout=QHBoxLayout()
-        self.startDateWidget.setLayout(self.startDateWidgetLayout)
-        self.timeSearchBoxLayout.addWidget(self.startDateWidget) 
 
         self.startDateLabel=QLabel()
         self.startDateLabel.setText('Start Date:')   
-        self.startDateWidgetLayout.addWidget(self.startDateLabel)
+        self.timeSearchBoxLayout.addWidget(self.startDateLabel,1,0)
 
         self.startDateField=QLineEdit()
-        self.startDateWidgetLayout.addWidget(self.startDateField)        
+        self.timeSearchBoxLayout.addWidget(self.startDateField,1,1)        
 
         #---END DATE WIDGET
 
-        self.endDateWidget=QWidget()
-        self.endDateWidgetLayout=QHBoxLayout()
-        self.endDateWidget.setLayout(self.endDateWidgetLayout)
-        self.timeSearchBoxLayout.addWidget(self.endDateWidget) 
-
         self.endDateLabel=QLabel()
         self.endDateLabel.setText('end Date:')   
-        self.endDateWidgetLayout.addWidget(self.endDateLabel)
+        self.timeSearchBoxLayout.addWidget(self.endDateLabel,2,0)
 
         self.endDateField=QLineEdit()
-        self.endDateWidgetLayout.addWidget(self.endDateField)           
+        self.timeSearchBoxLayout.addWidget(self.endDateField,2,1)           
 
-        #---SET DATES BUTTONS WIDGET
+        # #---SET DATES BUTTONS WIDGET
 
         self.dateButtonsWidget=QWidget()
         self.dateButtonsWidgetLayout=QHBoxLayout()
         self.dateButtonsWidget.setLayout(self.dateButtonsWidgetLayout)
-        self.timeSearchBoxLayout.addWidget(self.dateButtonsWidget)
+
+
 
         self.setDatesButton=QPushButton()
         self.setDatesButton.setText('SET DATES')
@@ -376,19 +313,17 @@ class MainWindow(QMainWindow):
         self.clearDatesButton.setText('CLEAR DATES')
         self.dateButtonsWidgetLayout.addWidget(self.clearDatesButton)
 
-        #---TOGGLE TIME SEARCH WIDGET
+        self.timeSearchBoxLayout.addWidget(self.dateButtonsWidget,3,0,1,2)
 
-        self.toggleTimeSearchWidget=QWidget()
-        self.toggleTimeSearchWidgetLayout=QHBoxLayout()
-        self.toggleTimeSearchWidget.setLayout(self.toggleTimeSearchWidgetLayout)
-        self.timeSearchBoxLayout.addWidget(self.toggleTimeSearchWidget)     
+        # #---TOGGLE TIME SEARCH WIDGET
+
 
         self.toggleTimeSearchLabel=QLabel()
-        self.toggleTimeSearchLabel.setText("Toggle Time Search On/Off")
-        self.toggleTimeSearchWidgetLayout.addWidget(self.toggleTimeSearchLabel)
+        self.toggleTimeSearchLabel.setText("Toggle Time Search")
+        self.timeSearchBoxLayout.addWidget(self.toggleTimeSearchLabel,4,0,Qt.AlignmentFlag.AlignCenter)
 
         self.toggleTimeSearchCheckbox=QCheckBox()
-        self.toggleTimeSearchWidgetLayout.addWidget(self.toggleTimeSearchCheckbox)
+        self.timeSearchBoxLayout.addWidget(self.toggleTimeSearchCheckbox,4,1,Qt.AlignmentFlag.AlignCenter)
 
 
         ##----------------------TABLE WIDGET--------------------------
@@ -416,74 +351,70 @@ class MainWindow(QMainWindow):
 
         self.tableControlsWidget=QWidget()
         self.tableControlsWidget.setFixedHeight(110)
-        self.tableControlsWidgetLayout=QVBoxLayout()
-        #self.tableControlsWidgetLayout.addStretch(0)
-
-        self.tableControlsWidgetLayout.setSpacing(0)
-        self.tableControlsWidgetLayout.setContentsMargins(0,0,0,0)
-
+        self.tableControlsWidgetLayout=QGridLayout()
+ 
         self.tableControlsWidget.setLayout(self.tableControlsWidgetLayout)
         self.tableWidgetLayout.addWidget(self.tableControlsWidget)
 
 
-        self.topTableButtonsWidget=QWidget()
+        # self.topTableButtonsWidget=QWidget()
         
-        self.topTableButtonsWidget.setMaximumHeight(40)
-        self.topTableButtonsWidgetLayout=QHBoxLayout()
-        self.topTableButtonsWidget.setLayout(self.topTableButtonsWidgetLayout)
-        self.tableControlsWidgetLayout.addWidget(self.topTableButtonsWidget)
+        # self.topTableButtonsWidget.setMaximumHeight(40)
+        # self.topTableButtonsWidgetLayout=QHBoxLayout()
+        # self.topTableButtonsWidget.setLayout(self.topTableButtonsWidgetLayout)
+        # self.tableControlsWidgetLayout.addWidget(self.topTableButtonsWidget)
 
 
         self.importButton=QPushButton()
         self.importButton.setText("IMPORT")
         self.importButton.clicked.connect(lambda:importCssFile(self))
         self.importButton.setFixedWidth(110)
-        self.topTableButtonsWidgetLayout.addWidget(self.importButton)        
+        self.tableControlsWidgetLayout.addWidget(self.importButton,0,0)        
 
 
         self.removeEditorButton=QPushButton()
         self.removeEditorButton.setText("REMOVE")
         self.removeEditorButton.setFixedWidth(110)
-        self.topTableButtonsWidgetLayout.addWidget(self.removeEditorButton)
+        self.tableControlsWidgetLayout.addWidget(self.removeEditorButton,0,1)
 
 
         self.moveUpButton=QPushButton()
         self.moveUpButton.setText("MOVE UP")
         self.moveUpButton.setFixedWidth(110)
-        self.topTableButtonsWidgetLayout.addWidget(self.moveUpButton)
+        self.tableControlsWidgetLayout.addWidget(self.moveUpButton,0,2)
 
         self.restackButton=QPushButton()
         self.restackButton.setText("RESTACK")
         self.restackButton.setFixedWidth(110)
-        self.topTableButtonsWidgetLayout.addWidget(self.restackButton)
+        self.tableControlsWidgetLayout.addWidget(self.restackButton,0,3)
 
 
-        self.bottomTableButtonsWidget=QWidget()
-        self.bottomTableButtonsWidget.setMaximumHeight(40)
-        self.bottomTableButtonsWidgetLayout=QHBoxLayout()
-        self.bottomTableButtonsWidget.setLayout(self.bottomTableButtonsWidgetLayout)
-        self.tableControlsWidgetLayout.addWidget(self.bottomTableButtonsWidget)
-        self.tableWidgetLayout.addWidget(self.tableControlsWidget)
+        # self.bottomTableButtonsWidget=QWidget()
+        # self.bottomTableButtonsWidget.setMaximumHeight(40)
+        # self.bottomTableButtonsWidgetLayout=QHBoxLayout()
+        # self.bottomTableButtonsWidget.setLayout(self.bottomTableButtonsWidgetLayout)
+        # self.tableControlsWidgetLayout.addWidget(self.bottomTableButtonsWidget)
+        # self.tableWidgetLayout.addWidget(self.tableControlsWidget)
 
         self.exportButton=QPushButton()
         self.exportButton.setText("EXPORT")
         self.exportButton.setFixedWidth(110)
-        self.bottomTableButtonsWidgetLayout.addWidget(self.exportButton)        
+        self.tableControlsWidgetLayout.addWidget(self.exportButton,1,0)        
 
         self.removeAllEditorsButton=QPushButton()
         self.removeAllEditorsButton.setText("REMOVE ALL")   
         self.removeAllEditorsButton.setFixedWidth(110)
-        self.bottomTableButtonsWidgetLayout.addWidget(self.removeAllEditorsButton)
+        self.tableControlsWidgetLayout.addWidget(self.removeAllEditorsButton,1,1)
 
         self.moveDownButton=QPushButton()
         self.moveDownButton.setText("MOVE DOWN")
         self.moveDownButton.setFixedWidth(110)
-        self.bottomTableButtonsWidgetLayout.addWidget(self.moveDownButton)
+        self.tableControlsWidgetLayout.addWidget(self.moveDownButton,1,2)
 
         self.isolateButton=QPushButton()
         self.isolateButton.setText("ISOLATE")
         self.isolateButton.setFixedWidth(110)
-        self.bottomTableButtonsWidgetLayout.addWidget(self.isolateButton)
+        self.tableControlsWidgetLayout.addWidget(self.isolateButton,1,3)
 
 
 

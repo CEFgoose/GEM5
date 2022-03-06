@@ -61,16 +61,24 @@ def parse_team_from_mapcss(main,mapcss_text):
 def parse_unuploaded_data_from_mapcss(main,mapcss_text):
     unup_info=mapcss_text.split('/* MODIFIED BUT NOT UPLOADED LAYER STYLE */')[1]
     main.unup_node_shape=unup_info.split('symbol-shape: ')[1].split(';')[0]
-    main.unup_node_color=QColor(unup_info.split('symbol-stroke-color: ')[1].split(';')[0])
+    main.unup_node_color_ui=QColor(unup_info.split('symbol-stroke-color: ')[1].split(';')[0])
     main.unup_node_size=unup_info.split('symbol-size: ')[1].split(';')[0]
-    main.unup_line_color=QColor(unup_info.split('casing-color: ')[1].split(';')[0])
+    main.unup_line_color_ui=QColor(unup_info.split('casing-color: ')[1].split(';')[0])
     main.unup_line_width=unup_info.split('casing-width: ')[1].split(';')[0]
     main.unupLineWidthSpinner.setValue(int(main.unup_line_width))
     main.unupNodeWidthSpinner.setValue(int(main.unup_node_size))
-    main.unupLineColorpix.fill(main.unup_line_color)
+    main.unupLineColorpix.fill(main.unup_line_color_ui)
     main.unupLineColorPreview.setPixmap(main.unupLineColorpix)
-    main.unupNodeColorpix.fill(main.unup_node_color)
+    main.unupNodeColorpix.fill(main.unup_node_color_ui)
     main.unupNodeColorPreview.setPixmap(main.unupNodeColorpix)
+
+    main.unupNodeShapePixmap = QPixmap(allShapes[main.unup_node_shape])
+    main.unupNodeShapeMask = main.unupNodeShapePixmap.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
+    main.unupNodeShapePixmap.fill(main.unup_node_color_ui)
+    main.unupNodeShapePixmap.setMask(main.unupNodeShapeMask)
+    main.unupNodeShapePixmap=main.unupNodeShapePixmap.scaled(20,20)
+    main.unupNodeShapePreview.setPixmap(main.unupNodeShapePixmap)
+
 
 
             
