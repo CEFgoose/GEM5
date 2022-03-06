@@ -17,6 +17,7 @@ from settings import *
 from import_functions import *
 from unuploaded_functions import *
 from shape_select_widget import *
+from list_functions import *
 #----------------------MAIN WINDOW CLASS----------------------------
 
 class MainWindow(QMainWindow):
@@ -29,6 +30,8 @@ class MainWindow(QMainWindow):
         self.filters = ""
         self.select_filters = "MAPCSS (*.mapcss)"
         self.currentEditors={}
+        self.currentEditorsOrdered=[]
+        self.selectedEditors=[]
         self.unup_node_size=0
         self.unup_line_width=0
         self.unup_line_color_text=''
@@ -45,28 +48,22 @@ class MainWindow(QMainWindow):
         ##----------------GUI SETUP---------------------------------
 
         self.mainWidget=QWidget()
-        self.mainWidgetLayout=QVBoxLayout()
-        self.mainWidgetLayout.addStretch(1)
+        self.mainWidgetLayout=QGridLayout()
         self.mainWidget.setLayout(self.mainWidgetLayout)
         self.setCentralWidget(self.mainWidget)
 
 
-        ##----------------------CONTROLS AND TABLE SPLITTER---------
-        
-        self.bodySplitter=QSplitter(Qt.Horizontal)
-        self.mainWidgetLayout.addWidget(self.bodySplitter)
-
         ##----------------------CONTROLS WIDGET---------------------
 
-
         ##----------------------TEAM / FILE NAME BOX----------------
+
         self.controlsWidget=QGroupBox()
 
         self.controlsWidget.setTitle("Controls")
-        self.controlsWidgetLayout=QVBoxLayout()
+        self.controlsWidgetLayout=QGridLayout()
         self.controlsWidgetLayout.setSpacing(0)
         self.controlsWidget.setLayout(self.controlsWidgetLayout)
-        self.bodySplitter.addWidget(self.controlsWidget)
+        self.mainWidgetLayout.addWidget(self.controlsWidget,0,0)
 
         self.teamNameBox = QGroupBox()
 
@@ -339,9 +336,10 @@ class MainWindow(QMainWindow):
 
 
         self.tableWidget.setLayout(self.tableWidgetLayout)
-        self.bodySplitter.addWidget(self.tableWidget)
+        self.mainWidgetLayout.addWidget(self.tableWidget,0,1)
 
         self.editorTable=QTreeWidget()
+        self.editorTable.clicked.connect(lambda:editor_list_clicked(self))
         self.editorTable.setColumnCount(4)
         self.editorTable.setHeaderLabels(['Name','OSM Username','Line','Node'])
         self.editorTable.setSizePolicy (QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -374,17 +372,20 @@ class MainWindow(QMainWindow):
 
         self.removeEditorButton=QPushButton()
         self.removeEditorButton.setText("REMOVE")
+        self.removeEditorButton.clicked.connect(lambda:remove_editors(self))
         self.removeEditorButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.removeEditorButton,0,1)
 
 
         self.moveUpButton=QPushButton()
         self.moveUpButton.setText("MOVE UP")
+        self.moveUpButton.clicked.connect(lambda:move_up(self))
         self.moveUpButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.moveUpButton,0,2)
 
         self.restackButton=QPushButton()
         self.restackButton.setText("RESTACK")
+
         self.restackButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.restackButton,0,3)
 
@@ -402,12 +403,14 @@ class MainWindow(QMainWindow):
         self.tableControlsWidgetLayout.addWidget(self.exportButton,1,0)        
 
         self.removeAllEditorsButton=QPushButton()
-        self.removeAllEditorsButton.setText("REMOVE ALL")   
+        self.removeAllEditorsButton.setText("REMOVE ALL") 
+        self.removeAllEditorsButton.clicked.connect(lambda:remove_all_editors(self))  
         self.removeAllEditorsButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.removeAllEditorsButton,1,1)
 
         self.moveDownButton=QPushButton()
         self.moveDownButton.setText("MOVE DOWN")
+        self.moveDownButton.clicked.connect(lambda:move_down(self))
         self.moveDownButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.moveDownButton,1,2)
 

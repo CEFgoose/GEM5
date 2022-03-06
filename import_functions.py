@@ -49,8 +49,11 @@ def parse_users_from_mapcss(main,mapcss_text):
         editor_node_shape=editor.split('symbol-shape: ')[1].split(";")[0]
         editor_node_color=editor.split('symbol-stroke-color: ')[1].split(";")[0]
         editor=EDITOR(editor_first_name,editor_username,editor_line_color,editor_node_color,editor_node_size,editor_node_shape,editor_line_width)
-        main.currentEditors[editor.username]=editor
-    for editor in main.currentEditors.values():
+        main.currentEditorsOrdered.append(editor)
+        editor.listIndex=main.currentEditorsOrdered.index(editor)
+        # main.currentEditors[editor.username]=editor
+        
+    for editor in main.currentEditorsOrdered:
         editor.construct_list_item(main)
 
 def parse_team_from_mapcss(main,mapcss_text):
@@ -71,7 +74,6 @@ def parse_unuploaded_data_from_mapcss(main,mapcss_text):
     main.unupLineColorPreview.setPixmap(main.unupLineColorpix)
     main.unupNodeColorpix.fill(main.unup_node_color_ui)
     main.unupNodeColorPreview.setPixmap(main.unupNodeColorpix)
-
     main.unupNodeShapePixmap = QPixmap(allShapes[main.unup_node_shape])
     main.unupNodeShapeMask = main.unupNodeShapePixmap.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
     main.unupNodeShapePixmap.fill(main.unup_node_color_ui)

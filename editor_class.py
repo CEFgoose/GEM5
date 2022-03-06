@@ -19,6 +19,7 @@ class EDITOR(object):
         self.nodeShape.fill(self.nodeColorUI)
         self.nodeShape.setMask(self.nodeMask)
         self.lineColorPixmap=QPixmap(15, 15)
+        self.listIndex=0
 
     def construct_list_item(self,main):
         self.list_entry=QTreeWidgetItem()
