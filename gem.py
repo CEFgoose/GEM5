@@ -19,6 +19,7 @@ from unuploaded_functions import *
 from editor_functions import *
 from shape_select_widget import *
 from list_functions import *
+from timesearch_functions import *
 #----------------------MAIN WINDOW CLASS----------------------------
 
 class MainWindow(QMainWindow):
@@ -47,7 +48,10 @@ class MainWindow(QMainWindow):
         self.editor_line_color_ui=QColor(BLACK)
         self.editor_node_color_text=''
         self.editor_node_color_ui=QColor(BLACK)
-
+        self.dateSelectMode='start'
+        self.calendarOpen=False
+        self.search_dates=''
+        self.time_search_active=False
         ##-----------------QICONS & QPIXMAPS--------------------------
         # self.kaartLogo='static/icons/kaart.png'
         # self.gemLogo='static/icons/GEM.png'
@@ -299,23 +303,26 @@ class MainWindow(QMainWindow):
 
         self.openCalendarButton=QPushButton()
         self.openCalendarButton.setText('OPEN CALENDAR')
+        self.openCalendarButton.clicked.connect(lambda:open_calendar(self))
         self.timeSearchBoxLayout.addWidget(self.openCalendarButton,0,0,1,2) 
 
         #---START DATE WIDGET
 
 
-        self.startDateLabel=QLabel()
-        self.startDateLabel.setText('Start Date:')   
-        self.timeSearchBoxLayout.addWidget(self.startDateLabel,1,0)
+        self.startDateButton=QRadioButton()
+        self.startDateButton.setText('Start Date:')   
+        self.startDateButton.clicked.connect(lambda:set_date_select_mode(self,'start'))
+        self.timeSearchBoxLayout.addWidget(self.startDateButton,1,0)
 
         self.startDateField=QLineEdit()
         self.timeSearchBoxLayout.addWidget(self.startDateField,1,1)        
 
         #---END DATE WIDGET
 
-        self.endDateLabel=QLabel()
-        self.endDateLabel.setText('end Date:')   
-        self.timeSearchBoxLayout.addWidget(self.endDateLabel,2,0)
+        self.endDateButton=QRadioButton()
+        self.endDateButton.setText('End Date:')   
+        self.endDateButton.clicked.connect(lambda:set_date_select_mode(self,'end'))
+        self.timeSearchBoxLayout.addWidget(self.endDateButton,2,0)
 
         self.endDateField=QLineEdit()
         self.timeSearchBoxLayout.addWidget(self.endDateField,2,1)           
@@ -330,10 +337,12 @@ class MainWindow(QMainWindow):
 
         self.setDatesButton=QPushButton()
         self.setDatesButton.setText('SET DATES')
+        self.setDatesButton.clicked.connect(lambda:set_search_dates(self))
         self.dateButtonsWidgetLayout.addWidget(self.setDatesButton)
 
         self.clearDatesButton=QPushButton()
         self.clearDatesButton.setText('CLEAR DATES')
+        self.clearDatesButton.clicked.connect(lambda:clear_dates(self))
         self.dateButtonsWidgetLayout.addWidget(self.clearDatesButton)
 
         self.timeSearchBoxLayout.addWidget(self.dateButtonsWidget,3,0,1,2)
@@ -346,6 +355,8 @@ class MainWindow(QMainWindow):
         self.timeSearchBoxLayout.addWidget(self.toggleTimeSearchLabel,4,0,Qt.AlignmentFlag.AlignCenter)
 
         self.toggleTimeSearchCheckbox=QCheckBox()
+        self.toggleTimeSearchCheckbox.clicked.connect(lambda:toggle_time_search(self,self.toggleTimeSearchCheckbox.isChecked()))
+
         self.timeSearchBoxLayout.addWidget(self.toggleTimeSearchCheckbox,4,1,Qt.AlignmentFlag.AlignCenter)
 
 
