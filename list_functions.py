@@ -47,15 +47,26 @@ def move_up(main):
 
 
 def move_down(main):
+    counter=1
     for editor in main.selectedEditors:
-        moving_down_index=main.currentEditorsOrdered.index(editor)
-        moving_up_index=main.currentEditorsOrdered.index(editor)+1
-        if moving_up_index>len(main.currentEditorsOrdered)-1:
-            moving_up_index=0
-        moving_down_editor=main.currentEditorsOrdered[moving_down_index]
-        moving_up_editor=main.currentEditorsOrdered[moving_up_index] 
-        main.currentEditorsOrdered[moving_up_index]=moving_down_editor
+        
+        if len(main.selectedEditors)>1:
+            moving_up_index=main.currentEditorsOrdered.index(editor)
+            moving_down_index=main.currentEditorsOrdered.index(editor)+counter
+
+        else:
+            moving_down_index=main.currentEditorsOrdered.index(editor)+1
+        if moving_down_index>len(main.currentEditorsOrdered)-1:
+            moving_down_index=0
+        moving_down_editor=main.currentEditorsOrdered[moving_down_index] 
+
+        moving_up_index=main.currentEditorsOrdered.index(editor)
+        moving_up_editor=main.currentEditorsOrdered[moving_up_index]
+
         main.currentEditorsOrdered[moving_down_index]=moving_up_editor
+        main.currentEditorsOrdered[moving_up_index]=moving_down_editor
+
+        counter+=1
     main.editorTable.clear()
     for editor in main.currentEditorsOrdered:
         editor.construct_list_item(main)

@@ -4,11 +4,30 @@ from PyQt5.QtGui import QColor,QPixmap
 from settings import *
 from editor_class import EDITOR
 from shapes import *
+
+
+def add_editor_handler(main):
+    if main.addEditorButton.text()=='UPDATE':
+        update_editor(main)
+        pass
+    elif main.addEditorButton.text()=='ADD':
+        add_new_editor(main)
+
 def editor_linewidth_changed(main,value):
     main.editor_line_width=value
 
 def editor_nodesize_changed(main,value):
     main.editor_node_size=value
+
+def editor_uid_toggled(main):
+    main.editor_UID_toggled = not main.editor_UID_toggled
+    print(main.editor_UID_toggled)
+
+def editor_name_changed(main,value):
+    main.editor_name=value
+
+def editor_username_changed(main,value):
+    main.editor_username=value
 
 def editor_linecolor_changed(main):
     color = QColorDialog.getColor()
@@ -37,30 +56,13 @@ def editor_nodecolor_changed(main):
         main.editor_node_color_text = colr
         main.editorNodeColorpix = QPixmap(15, 15)
         main.editorNodeColorpix.fill(main.editor_node_color_ui)
-
         main.editorNodeColorPreview.setPixmap(main.editorNodeColorpix)
-
         main.editorNodeShapePixmap=QPixmap(allShapes[main.editor_node_shape])
         main.editorNodeShapeMask = main.editorNodeShapePixmap.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
         main.editorNodeShapePixmap.fill(main.editor_node_color_ui)
         main.editorNodeShapePixmap.setMask(main.editorNodeShapeMask)
         main.editorNodeShapePixmap=main.editorNodeShapePixmap.scaled(30,30)
         main.editorNodeShapePreview.setPixmap(main.editorNodeShapePixmap)      
-        #main.editorNodeColorPreview.setPixmap(main.editorNodeColorpix)
-            # editor.nodeShape=QPixmap(allShapes[main.editor_node_shape])
-            # editor.nodeShape= editor.nodeShape.scaled(60, 60)
-            # editor.nodeMask = editor.nodeShape.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
-            # editor.nodeShape.fill(editor.nodeColorUI)
-            # editor.nodeShape.setMask(editor.nodeMask)
-def editor_uid_toggled(main):
-    main.editor_UID_toggled = not main.editor_UID_toggled
-    print(main.editor_UID_toggled)
-
-def editor_name_changed(main,value):
-    main.editor_name=value
-
-def editor_username_changed(main,value):
-    main.editor_username=value
 
 
 def update_editor(main):
@@ -137,35 +139,24 @@ def edit_editor(main):
     main.editor_node_color_ui= main.selectedEditors[0].nodeColorUI 
     main.editor_line_color_ui= main.selectedEditors[0].lineColorUI
     main.editor_node_shape=main.selectedEditors[0].nodeShapeText
-    main.selectedEditors[0].lineWidth
-    main.selectedEditors[0].iconSize
-
+    main.editor_line_width=main.selectedEditors[0].lineWidth
+    main.editor_node_size=main.selectedEditors[0].iconSize
     if len(main.selectedEditors)==1:
         main.editorNameField.setText(main.selectedEditors[0].firstName)
         main.editorUsernameField.setText(main.selectedEditors[0].username)
-        main.editorLineWidthSpinner.setValue(int(main.selectedEditors[0].lineWidth))
-        main.editorNodeWidthSpinner.setValue(int(main.selectedEditors[0].iconSize))
+        main.editorLineWidthSpinner.setValue(int(main.editor_line_width))
+        main.editorNodeWidthSpinner.setValue(int(main.editor_node_size))
         main.editorNodeColorpix = QPixmap(15, 15)
         main.editorNodeColorpix.fill(main.editor_node_color_ui)
         main.editorNodeColorPreview.setPixmap(main.editorNodeColorpix)
         main.editorLineColorpix = QPixmap(15, 15)
         main.editorLineColorpix.fill(main.editor_line_color_ui)
         main.editorLineColorPreview.setPixmap(main.editorLineColorpix)
-        
         pix=main.selectedEditors[0].nodeShape
-        
         main.editorNodeShapePreview.setPixmap(pix)
     else:
         main.editorNameField.setText(editing_names)
         main.editorUsernameField.setText(editing_usernames)
-
-def add_editor_handler(main):
-    if main.addEditorButton.text()=='UPDATE':
-        update_editor(main)
-        pass
-    elif main.addEditorButton.text()=='ADD':
-        add_new_editor(main)
-
 
 def clear_editor_info(main):
         main.editor_name=''
