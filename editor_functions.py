@@ -1,8 +1,9 @@
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 from PyQt5.QtGui import QColor,QPixmap
 from settings import *
 from editor_class import EDITOR
-
+from shapes import *
 def editor_linewidth_changed(main,value):
     main.editor_line_width=value
 
@@ -34,9 +35,23 @@ def editor_nodecolor_changed(main):
     else:
         main.editor_node_color_ui=QColor(color)
         main.editor_node_color_text = colr
+        main.editorNodeColorpix = QPixmap(15, 15)
         main.editorNodeColorpix.fill(main.editor_node_color_ui)
+
         main.editorNodeColorPreview.setPixmap(main.editorNodeColorpix)
-  
+
+        main.editorNodeShapePixmap=QPixmap(allShapes[main.editor_node_shape])
+        main.editorNodeShapeMask = main.editorNodeShapePixmap.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
+        main.editorNodeShapePixmap.fill(main.editor_node_color_ui)
+        main.editorNodeShapePixmap.setMask(main.editorNodeShapeMask)
+        main.editorNodeShapePixmap=main.editorNodeShapePixmap.scaled(30,30)
+        main.editorNodeShapePreview.setPixmap(main.editorNodeShapePixmap)      
+        #main.editorNodeColorPreview.setPixmap(main.editorNodeColorpix)
+            # editor.nodeShape=QPixmap(allShapes[main.editor_node_shape])
+            # editor.nodeShape= editor.nodeShape.scaled(60, 60)
+            # editor.nodeMask = editor.nodeShape.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
+            # editor.nodeShape.fill(editor.nodeColorUI)
+            # editor.nodeShape.setMask(editor.nodeMask)
 def editor_uid_toggled(main):
     main.editor_UID_toggled = not main.editor_UID_toggled
     print(main.editor_UID_toggled)
@@ -46,6 +61,49 @@ def editor_name_changed(main,value):
 
 def editor_username_changed(main,value):
     main.editor_username=value
+
+
+def update_editor(main):
+    if len(main.selectedEditors)>1:
+        editorNames=main.editorNameField.text().split(',')
+        editorUsernames=main.editorUsernameField.text().split(',')
+        for editor,name in zip(main.selectedEditors,editorNames):
+            editor.firstName=name.strip()
+        for editor,username in zip(main.selectedEditors,editorUsernames):
+            editor.username=username.strip()
+        for editor in main.selectedEditors:
+            editor.lineColorUI=main.editor_line_color_ui
+            editor.nodeColorUI=main.editor_node_color_ui       
+            editor.iconSize=int(main.editor_node_size)
+            editor.lineWidth=int(main.editor_line_width)
+            editor.nodeShape=QPixmap(allShapes[main.editor_node_shape])
+            editor.nodeShape= editor.nodeShape.scaled(60, 60)
+            editor.nodeMask = editor.nodeShape.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
+            editor.nodeShape.fill(editor.nodeColorUI)
+            editor.nodeShape.setMask(editor.nodeMask)
+        main.editorTable.clear()
+        for editor in main.currentEditorsOrdered:
+            editor.construct_list_item(main)
+        clear_editor_info(main)
+    else:
+        main.selectedEditors[0].firstName=main.editor_name
+        main.selectedEditors[0].username=main.editor_username
+        main.selectedEditors[0].lineColorUI=main.editor_line_color_ui
+        main.selectedEditors[0].nodeColorUI=main.editor_node_color_ui       
+        main.selectedEditors[0].iconSize=int(main.editor_node_size)
+        main.selectedEditors[0].lineWidth=int(main.editor_line_width)
+        main.selectedEditors[0].nodeShape=QPixmap(allShapes[main.editor_node_shape])
+        main.selectedEditors[0].nodeShape= main.selectedEditors[0].nodeShape.scaled(60, 60)
+        main.selectedEditors[0].nodeMask = main.selectedEditors[0].nodeShape.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
+        main.selectedEditors[0].nodeShape.fill(main.selectedEditors[0].nodeColorUI)
+        main.selectedEditors[0].nodeShape.setMask(main.selectedEditors[0].nodeMask)
+        main.editorTable.clear()
+        for editor in main.currentEditorsOrdered:
+            editor.construct_list_item(main)
+        clear_editor_info(main)
+    main.addEditorButton.setText('ADD')
+    #for editor, firstName in zip(main.selectedEditors):
+    
 
 def add_new_editor(main):
     new_editor=EDITOR(
@@ -63,6 +121,52 @@ def add_new_editor(main):
     clear_editor_info(main)
 
 
+def edit_editor(main):
+    main.addEditorButton.setText('UPDATE')
+    editing_names=[]
+    editing_usernames=[]
+    for editor in main.selectedEditors:
+        editing_names.append(editor.firstName)
+        editing_usernames.append(editor.username)
+    editing_names=str(editing_names).replace("[",'')
+    editing_names=str(editing_names.replace("]",''))   
+    editing_names=str(editing_names.replace("'",''))     
+    editing_usernames=str(editing_usernames).replace("[",'')
+    editing_usernames=str(editing_usernames.replace("]",''))   
+    editing_usernames=str(editing_usernames.replace("'",'')) 
+    main.editor_node_color_ui= main.selectedEditors[0].nodeColorUI 
+    main.editor_line_color_ui= main.selectedEditors[0].lineColorUI
+    main.editor_node_shape=main.selectedEditors[0].nodeShapeText
+    main.selectedEditors[0].lineWidth
+    main.selectedEditors[0].iconSize
+
+    if len(main.selectedEditors)==1:
+        main.editorNameField.setText(main.selectedEditors[0].firstName)
+        main.editorUsernameField.setText(main.selectedEditors[0].username)
+        main.editorLineWidthSpinner.setValue(int(main.selectedEditors[0].lineWidth))
+        main.editorNodeWidthSpinner.setValue(int(main.selectedEditors[0].iconSize))
+        main.editorNodeColorpix = QPixmap(15, 15)
+        main.editorNodeColorpix.fill(main.editor_node_color_ui)
+        main.editorNodeColorPreview.setPixmap(main.editorNodeColorpix)
+        main.editorLineColorpix = QPixmap(15, 15)
+        main.editorLineColorpix.fill(main.editor_line_color_ui)
+        main.editorLineColorPreview.setPixmap(main.editorLineColorpix)
+        
+        pix=main.selectedEditors[0].nodeShape
+        
+        main.editorNodeShapePreview.setPixmap(pix)
+    else:
+        main.editorNameField.setText(editing_names)
+        main.editorUsernameField.setText(editing_usernames)
+
+def add_editor_handler(main):
+    if main.addEditorButton.text()=='UPDATE':
+        update_editor(main)
+        pass
+    elif main.addEditorButton.text()=='ADD':
+        add_new_editor(main)
+
+
 def clear_editor_info(main):
         main.editor_name=''
         main.editor_username=''
@@ -71,7 +175,6 @@ def clear_editor_info(main):
         main.editor_node_size=1
         main.editor_node_shape='circle'
         main.editor_line_width=5 
-  
         main.editorNameField.setText('')
         main.editorUsernameField.setText('')
         main.editorLineWidthSpinner.setValue(5)
@@ -79,11 +182,9 @@ def clear_editor_info(main):
         main.editorNodeColorpix = QPixmap(15, 15)
         main.editorNodeColorpix.fill(QColor(WHITE))
         main.editorNodeColorPreview.setPixmap(main.editorNodeColorpix)
-
         main.editorLineColorpix = QPixmap(15, 15)
         main.editorLineColorpix.fill(QColor(WHITE))
         main.editorLineColorPreview.setPixmap(main.editorLineColorpix)
-        
         main.editorNodeShapePix=QPixmap(15,15)
         main.editorNodeShapePix.fill(QColor(WHITE))
         main.editorNodeShapePreview.setPixmap(main.editorNodeShapePix)

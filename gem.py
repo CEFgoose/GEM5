@@ -54,6 +54,12 @@ class MainWindow(QMainWindow):
         # self.gemIcon  = QtGui.QIcon(self.gemLogo)    
         # self.kaartIcon  = QtGui.QIcon(self.kaartLogo)
         self.unup_shape=QPixmap(15,15)
+        self.editor_node_shape='circle'
+        self.editorNodeShapePixmap=QPixmap(allShapes[self.editor_node_shape])
+        self.editorNodeShapePixmap= self.editorNodeShapePixmap.scaled(30, 30)
+        self.editorNodeShapeMask = self.editorNodeShapePixmap.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
+        self.editorNodeShapePixmap.fill(self.editor_node_color_ui)
+        self.editorNodeShapePixmap.setMask(self.editorNodeShapeMask)
         ##----------------GUI SETUP---------------------------------
 
         self.mainWidget=QWidget()
@@ -147,7 +153,7 @@ class MainWindow(QMainWindow):
 
         self.unupNodeShapePreview=QLabel()
         self.unupNodeShapePix=QPixmap(15,15)
-        self.unupNodeShapePreview.setPixmap(self.unupNodeShapePix)
+        self.unupNodeShapePreview.setPixmap(self.editorNodeShapePixmap)
         self.notUploadedBoxLayout.addWidget(self.unupNodeShapePreview,2,1,Qt.AlignmentFlag.AlignCenter)
 
         ##--------------------EDITOR HIGHLIGHT SETTINGS---------------
@@ -190,17 +196,19 @@ class MainWindow(QMainWindow):
 
         self.addEditorButton=QPushButton()
         self.addEditorButton.setText('ADD')
-        self.addEditorButton.clicked.connect(lambda:add_new_editor(self))
+        self.addEditorButton.clicked.connect(lambda:add_editor_handler(self))
         self.addEditorButton.setMaximumWidth(80)
         self.editorButtonLayout.addWidget(self.addEditorButton)
 
         self.clearEditorButton=QPushButton()
         self.clearEditorButton.setText('CLEAR')
+        self.clearEditorButton.clicked.connect(lambda:clear_editor_info(self))
         self.clearEditorButton.setMaximumWidth(80)
         self.editorButtonLayout.addWidget(self.clearEditorButton)
 
         self.editEditorButton=QPushButton()
         self.editEditorButton.setText('EDIT')
+        self.editEditorButton.clicked.connect(lambda:edit_editor(self))
         self.editEditorButton.setMaximumWidth(80)
         self.editorButtonLayout.addWidget(self.editEditorButton)
 
@@ -274,7 +282,7 @@ class MainWindow(QMainWindow):
 
         self.editorNodeShapePreview = QLabel()
         self.editorNodeShapePix=QPixmap(15,15)
-        self.editorNodeShapePreview.setPixmap(self.editorNodeShapePix)
+        self.editorNodeShapePreview.setPixmap(self.editorNodeShapePixmap)
         self.editorSettingsBoxLayout.addWidget(self.editorNodeShapePreview,5,1)
 
         # ##--------------------TIME SEARCH SETTINGS--------------------
@@ -359,7 +367,7 @@ class MainWindow(QMainWindow):
         self.editorTable=QTreeWidget()
         self.editorTable.clicked.connect(lambda:editor_list_clicked(self))
         self.editorTable.setColumnCount(4)
-        self.editorTable.setHeaderLabels(['Name','OSM Username','Line','Node'])
+        self.editorTable.setHeaderLabels(['Name','OSM Username','Line Color/Width','Node Color/Size/Shape'])
         self.editorTable.setSizePolicy (QSizePolicy.Minimum, QSizePolicy.Minimum)
         
         self.editorTable.setSelectionMode(QAbstractItemView.ExtendedSelection)

@@ -54,7 +54,6 @@ def move_down(main):
             moving_up_index=0
         moving_down_editor=main.currentEditorsOrdered[moving_down_index]
         moving_up_editor=main.currentEditorsOrdered[moving_up_index] 
-        
         main.currentEditorsOrdered[moving_up_index]=moving_down_editor
         main.currentEditorsOrdered[moving_down_index]=moving_up_editor
     main.editorTable.clear()
@@ -62,40 +61,3 @@ def move_down(main):
         editor.construct_list_item(main)
     
     
-
-    '''
-    def MOVEDOWN_clicked(self):
-        if self.NRSELECT != "":
-            MOVETO = int(int(self.NRSELECT) + 1)
-            MOVEFROM = int(self.NRSELECT)
-
-            if str(MOVETO) in self.TEMPUSERS.keys():
-                if self.TEMPUSERS[str(MOVETO)] == 0:
-                    self.GEMarray[(MOVETO)][0] = self.TEMPUSERS[str(MOVEFROM)].NAME
-                    self.GEMarray[(MOVETO)][1] = self.TEMPUSERS[str(MOVEFROM)].UID
-                    self.GEMarray[(MOVETO)][2] = self.TEMPUSERS[
-                        str(MOVEFROM)
-                    ].LINECOLORUI
-                    self.GEMarray[(MOVETO)][3] = self.TEMPUSERS[str(MOVEFROM)].icon
-                    self.GEMarray[(MOVEFROM)][0] = ""
-                    self.GEMarray[(MOVEFROM)][1] = ""
-                    self.GEMarray[(MOVEFROM)][2] = clear
-                    self.GEMarray[(MOVEFROM)][3] = clear
-                    self.TEMPUSERS[str(MOVETO)] = self.TEMPUSERS[str(MOVEFROM)]
-                    self.TEMPUSERS[str(MOVEFROM)] = 0
-                    self.SETNR()
-                else:
-                    self.MOVETOUSER = self.TEMPUSERS[str(MOVEFROM)]
-                    self.MOVEFROMUSER = self.TEMPUSERS[str(MOVETO)]
-                    self.GEMarray[(MOVEFROM)][0] = self.MOVEFROMUSER.NAME
-                    self.GEMarray[(MOVEFROM)][1] = self.MOVEFROMUSER.UID
-                    self.GEMarray[(MOVEFROM)][2] = self.MOVEFROMUSER.LINECOLORUI
-                    self.GEMarray[(MOVEFROM)][3] = self.MOVEFROMUSER.icon
-                    self.GEMarray[(MOVETO)][0] = self.MOVETOUSER.NAME
-                    self.GEMarray[(MOVETO)][1] = self.MOVETOUSER.UID
-                    self.GEMarray[(MOVETO)][2] = self.MOVETOUSER.LINECOLORUI
-                    self.GEMarray[(MOVETO)][3] = self.MOVETOUSER.icon
-                    self.TEMPUSERS[str(MOVETO)] = self.MOVETOUSER
-                    self.TEMPUSERS[str(MOVEFROM)] = self.MOVEFROMUSER
-                    self.SETNR()
-    '''

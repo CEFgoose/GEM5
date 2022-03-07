@@ -52,7 +52,7 @@ def parse_users_from_mapcss(main,mapcss_text):
         main.currentEditorsOrdered.append(editor)
         editor.listIndex=main.currentEditorsOrdered.index(editor)
         # main.currentEditors[editor.username]=editor
-    main.editorTable.clear()
+    main.editorTable.clear
     for editor in main.currentEditorsOrdered:
         editor.construct_list_item(main)
 
@@ -78,7 +78,7 @@ def parse_unuploaded_data_from_mapcss(main,mapcss_text):
     main.unupNodeShapeMask = main.unupNodeShapePixmap.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
     main.unupNodeShapePixmap.fill(main.unup_node_color_ui)
     main.unupNodeShapePixmap.setMask(main.unupNodeShapeMask)
-    main.unupNodeShapePixmap=main.unupNodeShapePixmap.scaled(20,20)
+    main.unupNodeShapePixmap=main.unupNodeShapePixmap.scaled(30,30)
     main.unupNodeShapePreview.setPixmap(main.unupNodeShapePixmap)
 
 
