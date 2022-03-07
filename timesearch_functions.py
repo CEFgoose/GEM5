@@ -18,7 +18,6 @@ def open_calendar(main):
         main.openCalendarButton.setText("OPEN CALENDAR")
         main.calendarOpen = False
 
-
 def set_date_select_mode(main,select):
     main.dateSelectMode=select
     print(main.dateSelectMode)
@@ -37,7 +36,6 @@ def set_date(main,qDate):
         main.endDateField.setText('{0}-{1}-{2}'.format(qDate.year(), MONTH, DAY))
         main.endDateField.repaint()
 
-
 def set_search_dates(main):
     if main.startDateField.text()!= "":
         if main.endDateField.text()!= "":
@@ -47,8 +45,6 @@ def set_search_dates(main):
     else:
         pass
     print(main.search_dates)
-
-
 
 def clear_dates(main):
     main.startDateField.setText('')

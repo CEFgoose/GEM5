@@ -53,10 +53,7 @@ class MainWindow(QMainWindow):
         self.search_dates=''
         self.time_search_active=False
         ##-----------------QICONS & QPIXMAPS--------------------------
-        # self.kaartLogo='static/icons/kaart.png'
-        # self.gemLogo='static/icons/GEM.png'
-        # self.gemIcon  = QtGui.QIcon(self.gemLogo)    
-        # self.kaartIcon  = QtGui.QIcon(self.kaartLogo)
+
         self.unup_shape=QPixmap(15,15)
         self.editor_node_shape='circle'
         self.editorNodeShapePixmap=QPixmap(allShapes[self.editor_node_shape])
@@ -64,6 +61,7 @@ class MainWindow(QMainWindow):
         self.editorNodeShapeMask = self.editorNodeShapePixmap.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
         self.editorNodeShapePixmap.fill(self.editor_node_color_ui)
         self.editorNodeShapePixmap.setMask(self.editorNodeShapeMask)
+
         ##----------------GUI SETUP---------------------------------
 
         self.mainWidget=QWidget()
@@ -74,7 +72,6 @@ class MainWindow(QMainWindow):
 
         ##----------------------CONTROLS WIDGET---------------------
 
-        ##----------------------TEAM / FILE NAME BOX----------------
 
         self.controlsWidget=QGroupBox()
 
@@ -84,8 +81,9 @@ class MainWindow(QMainWindow):
         self.controlsWidget.setLayout(self.controlsWidgetLayout)
         self.mainWidgetLayout.addWidget(self.controlsWidget,0,0)
 
-        self.teamNameBox = QGroupBox()
+        ##----------------------TEAM / FILE NAME BOX----------------
 
+        self.teamNameBox = QGroupBox()
         self.teamNameBox.setTitle('Team Name')
         self.teamNameBoxLayout=QGridLayout()
         self.teamNameBoxLayout.setSpacing(0)
@@ -216,17 +214,12 @@ class MainWindow(QMainWindow):
         self.editEditorButton.setMaximumWidth(80)
         self.editorButtonLayout.addWidget(self.editEditorButton)
 
-
         # #--EDITOR LINE SETTINGS
-
-
-
 
         self.editorLineColorButton=QPushButton()
         self.editorLineColorButton.setText("LINE COLOR")  
         self.editorLineColorButton.clicked.connect(lambda:editor_linecolor_changed(self))    
         self.editorSettingsBoxLayout.addWidget(self.editorLineColorButton,3,0)
-
 
         self.editorLineColorPreview=QLabel()
         self.editorLineColorpix = QtGui.QPixmap(15, 15)
@@ -300,14 +293,12 @@ class MainWindow(QMainWindow):
 
         #---OPEN CALENDAR WIDGET
 
-
         self.openCalendarButton=QPushButton()
         self.openCalendarButton.setText('OPEN CALENDAR')
         self.openCalendarButton.clicked.connect(lambda:open_calendar(self))
         self.timeSearchBoxLayout.addWidget(self.openCalendarButton,0,0,1,2) 
 
         #---START DATE WIDGET
-
 
         self.startDateButton=QRadioButton()
         self.startDateButton.setText('Start Date:')   
@@ -333,8 +324,6 @@ class MainWindow(QMainWindow):
         self.dateButtonsWidgetLayout=QHBoxLayout()
         self.dateButtonsWidget.setLayout(self.dateButtonsWidgetLayout)
 
-
-
         self.setDatesButton=QPushButton()
         self.setDatesButton.setText('SET DATES')
         self.setDatesButton.clicked.connect(lambda:set_search_dates(self))
@@ -349,7 +338,6 @@ class MainWindow(QMainWindow):
 
         # #---TOGGLE TIME SEARCH WIDGET
 
-
         self.toggleTimeSearchLabel=QLabel()
         self.toggleTimeSearchLabel.setText("Toggle Time Search")
         self.timeSearchBoxLayout.addWidget(self.toggleTimeSearchLabel,4,0,Qt.AlignmentFlag.AlignCenter)
@@ -359,18 +347,14 @@ class MainWindow(QMainWindow):
 
         self.timeSearchBoxLayout.addWidget(self.toggleTimeSearchCheckbox,4,1,Qt.AlignmentFlag.AlignCenter)
 
-
         ##----------------------TABLE WIDGET--------------------------
 
         self.tableWidget=QGroupBox()
         self.tableWidget.setTitle("Table")
         self.tableWidgetLayout=QVBoxLayout()
 
-
-        #self.tableWidgetLayout.addStretch(0)
         self.tableWidgetLayout.setSpacing(0)
         self.tableWidgetLayout.setContentsMargins(0,0,0,0)
-
 
         self.tableWidget.setLayout(self.tableWidgetLayout)
         self.mainWidgetLayout.addWidget(self.tableWidget,0,1)
@@ -391,28 +375,17 @@ class MainWindow(QMainWindow):
         self.tableControlsWidget.setLayout(self.tableControlsWidgetLayout)
         self.tableWidgetLayout.addWidget(self.tableControlsWidget)
 
-
-        # self.topTableButtonsWidget=QWidget()
-        
-        # self.topTableButtonsWidget.setMaximumHeight(40)
-        # self.topTableButtonsWidgetLayout=QHBoxLayout()
-        # self.topTableButtonsWidget.setLayout(self.topTableButtonsWidgetLayout)
-        # self.tableControlsWidgetLayout.addWidget(self.topTableButtonsWidget)
-
-
         self.importButton=QPushButton()
         self.importButton.setText("IMPORT")
         self.importButton.clicked.connect(lambda:importCssFile(self))
         self.importButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.importButton,0,0)        
 
-
         self.removeEditorButton=QPushButton()
         self.removeEditorButton.setText("REMOVE")
         self.removeEditorButton.clicked.connect(lambda:remove_editors(self))
         self.removeEditorButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.removeEditorButton,0,1)
-
 
         self.moveUpButton=QPushButton()
         self.moveUpButton.setText("MOVE UP")
@@ -425,14 +398,6 @@ class MainWindow(QMainWindow):
 
         self.restackButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.restackButton,0,3)
-
-
-        # self.bottomTableButtonsWidget=QWidget()
-        # self.bottomTableButtonsWidget.setMaximumHeight(40)
-        # self.bottomTableButtonsWidgetLayout=QHBoxLayout()
-        # self.bottomTableButtonsWidget.setLayout(self.bottomTableButtonsWidgetLayout)
-        # self.tableControlsWidgetLayout.addWidget(self.bottomTableButtonsWidget)
-        # self.tableWidgetLayout.addWidget(self.tableControlsWidget)
 
         self.exportButton=QPushButton()
         self.exportButton.setText("EXPORT")

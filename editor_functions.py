@@ -5,7 +5,7 @@ from settings import *
 from editor_class import EDITOR
 from shapes import *
 
-
+#---handles calling add or update user function when add/update editor button cliecked
 def add_editor_handler(main):
     if main.addEditorButton.text()=='UPDATE':
         update_editor(main)
@@ -13,22 +13,28 @@ def add_editor_handler(main):
     elif main.addEditorButton.text()=='ADD':
         add_new_editor(main)
 
+#---saves any change to editor line width to var
 def editor_linewidth_changed(main,value):
     main.editor_line_width=value
 
+#---saves any change to editor node size to var
 def editor_nodesize_changed(main,value):
     main.editor_node_size=value
 
+#---flips editor UID toggled Boolean
 def editor_uid_toggled(main):
     main.editor_UID_toggled = not main.editor_UID_toggled
     print(main.editor_UID_toggled)
 
+#---saves any change to editor name to var
 def editor_name_changed(main,value):
     main.editor_name=value
 
+#---saves any change to editor username to var
 def editor_username_changed(main,value):
     main.editor_username=value
 
+##---saves any change to editor line color to var and repaints line color preview
 def editor_linecolor_changed(main):
     color = QColorDialog.getColor()
     clr = color.name()
@@ -42,7 +48,8 @@ def editor_linecolor_changed(main):
         main.editor_line_color_text = colr
         main.editorLineColorpix.fill(main.editor_line_color_ui)
         main.editorLineColorPreview.setPixmap(main.editorLineColorpix)
-  
+
+#---saves any change to editor node color to var and repaints node color preview and node shape preview 
 def editor_nodecolor_changed(main):
     color = QColorDialog.getColor()
     clr = color.name()
@@ -62,9 +69,9 @@ def editor_nodecolor_changed(main):
         main.editorNodeShapePixmap.fill(main.editor_node_color_ui)
         main.editorNodeShapePixmap.setMask(main.editorNodeShapeMask)
         main.editorNodeShapePixmap=main.editorNodeShapePixmap.scaled(30,30)
-        main.editorNodeShapePreview.setPixmap(main.editorNodeShapePixmap)      
+        main.editorNodeShapePreview.setPixmap(main.editorNodeShapePixmap)    
 
-
+#---Applies any changes in editor settings fields to selected editors then re-renders the editor table with new info
 def update_editor(main):
     if len(main.selectedEditors)>1:
         editorNames=main.editorNameField.text().split(',')
@@ -104,9 +111,8 @@ def update_editor(main):
             editor.construct_list_item(main)
         clear_editor_info(main)
     main.addEditorButton.setText('ADD')
-    #for editor, firstName in zip(main.selectedEditors):
-    
 
+#---creates a new editor class instance from new info in editor settings, adds editor to editor list & table, re-renders editor table with new entry  
 def add_new_editor(main):
     new_editor=EDITOR(
         main.editor_name,
@@ -123,6 +129,7 @@ def add_new_editor(main):
     clear_editor_info(main)
 
 
+#---Grabs info on selected editors from editor list and applies it to editor settings fields for change & update
 def edit_editor(main):
     main.addEditorButton.setText('UPDATE')
     editing_names=[]
@@ -158,6 +165,7 @@ def edit_editor(main):
         main.editorNameField.setText(editing_names)
         main.editorUsernameField.setText(editing_usernames)
 
+#---clears all editor settings fields after editor added or updated
 def clear_editor_info(main):
         main.editor_name=''
         main.editor_username=''
