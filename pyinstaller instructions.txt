@@ -1,1 +1,3 @@
-pyi-makespec  --windowed  --onefile --noconsole CS2CSV.py -i /Users/cefgoose/Desktop/cs2csv_icon.png
+pyi-makespec  --windowed  --onefile --noconsole GEM.py -i static/icons/GEM.png
+
+pyinstaller --noconsole --onefile --windowed GEM.spec
