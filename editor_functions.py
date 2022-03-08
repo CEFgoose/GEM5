@@ -24,7 +24,7 @@ def editor_nodesize_changed(main,value):
 #---flips editor UID toggled Boolean
 def editor_uid_toggled(main):
     main.editor_UID_toggled = not main.editor_UID_toggled
-    print(main.editor_UID_toggled)
+
 
 #---saves any change to editor name to var
 def editor_name_changed(main,value):
@@ -42,7 +42,7 @@ def editor_linecolor_changed(main):
     for i in clr:
         colr+= str(i)
     if colr =="#000000":
-        pass
+        colr = main.editor_line_color_text
     else:
         main.editor_line_color_ui=QColor(color)
         main.editor_line_color_text = colr
@@ -57,7 +57,7 @@ def editor_nodecolor_changed(main):
     for i in clr:
         colr+= str(i)
     if colr =="#000000":
-        pass
+        colr=main.editor_node_color_text
     else:
         main.editor_node_color_ui=QColor(color)
         main.editor_node_color_text = colr
@@ -73,6 +73,7 @@ def editor_nodecolor_changed(main):
 
 #---Applies any changes in editor settings fields to selected editors then re-renders the editor table with new info
 def update_editor(main):
+    print(len(main.selectedEditors)) 
     if len(main.selectedEditors)>1:
         editorNames=main.editorNameField.text().split(',')
         editorUsernames=main.editorUsernameField.text().split(',')
@@ -81,6 +82,9 @@ def update_editor(main):
         for editor,username in zip(main.selectedEditors,editorUsernames):
             editor.username=username.strip()
         for editor in main.selectedEditors:
+            editor.nodeShapeText=main.editor_node_shape
+            editor.lineColorText=main.editor_line_color_text
+            editor.nodeColorText=main.editor_node_color_text           
             editor.lineColorUI=main.editor_line_color_ui
             editor.nodeColorUI=main.editor_node_color_ui       
             editor.iconSize=int(main.editor_node_size)
@@ -95,12 +99,16 @@ def update_editor(main):
             editor.construct_list_item(main)
         clear_editor_info(main)
     else:
+        
         main.selectedEditors[0].firstName=main.editor_name
         main.selectedEditors[0].username=main.editor_username
         main.selectedEditors[0].lineColorUI=main.editor_line_color_ui
-        main.selectedEditors[0].nodeColorUI=main.editor_node_color_ui       
+        main.selectedEditors[0].nodeColorUI=main.editor_node_color_ui  
+        main.selectedEditors[0].lineColorText=main.editor_line_color_text
+        main.selectedEditors[0].nodeColorText=main.editor_node_color_text        
         main.selectedEditors[0].iconSize=int(main.editor_node_size)
         main.selectedEditors[0].lineWidth=int(main.editor_line_width)
+        main.selectedEditors[0].nodeShapeText=main.editor_node_shape
         main.selectedEditors[0].nodeShape=QPixmap(allShapes[main.editor_node_shape])
         main.selectedEditors[0].nodeShape= main.selectedEditors[0].nodeShape.scaled(60, 60)
         main.selectedEditors[0].nodeMask = main.selectedEditors[0].nodeShape.createMaskFromColor(QColor(BLACK), Qt.MaskInColor)
@@ -143,6 +151,8 @@ def edit_editor(main):
     editing_usernames=str(editing_usernames).replace("[",'')
     editing_usernames=str(editing_usernames.replace("]",''))   
     editing_usernames=str(editing_usernames.replace("'",'')) 
+    main.editor_node_color_text= main.selectedEditors[0].nodeColorText
+    main.editor_line_color_text= main.selectedEditors[0].lineColorText
     main.editor_node_color_ui= main.selectedEditors[0].nodeColorUI 
     main.editor_line_color_ui= main.selectedEditors[0].lineColorUI
     main.editor_node_shape=main.selectedEditors[0].nodeShapeText
@@ -187,3 +197,14 @@ def clear_editor_info(main):
         main.editorNodeShapePix=QPixmap(15,15)
         main.editorNodeShapePix.fill(QColor(WHITE))
         main.editorNodeShapePreview.setPixmap(main.editorNodeShapePix)
+
+
+def isolate_users(main):
+    if main.isolate_users ==False:
+        main.isolate_users=True
+        for editor in main.selectedEditors:
+            editor.isolated=True
+    else:
+        main.isolate_users=False
+        for editor in main.selectedEditors:
+            editor.isolated=False   

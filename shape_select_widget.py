@@ -8,7 +8,7 @@ def shapeSelectWidget(main,select):
     main.shapeSelectWidget=QWidget()
     main.shapeSelectWidgetLayout=QGridLayout()
     main.shapeSelectWidget.setLayout(main.shapeSelectWidgetLayout)
-
+#---shape selecttion buttons
     circleButton=QPushButton()
     circleButton.setIcon(QIcon(allButtonShapes['circle']))
     circleButton.clicked.connect(lambda:setShape(main,'circle',select))
@@ -56,7 +56,7 @@ def shapeSelectWidget(main,select):
 
     main.shapeSelectWidget.show()
 
-
+#---handle shape selection & apply changes to selected settings box
 def setShape(main,shape,select):
     main.shapeSelectWidget.close()
     if select =="unup":

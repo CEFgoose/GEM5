@@ -5,6 +5,7 @@ from shapes import *
 from settings import*
 class EDITOR(object):
     def __init__(self,firstname,username,lineColorText,nodeColorText,iconSize,iconShape,lineWidth):
+        #---construct editor variables from init
         self.firstName= firstname
         self.username = username
         self.lineColorText = lineColorText
@@ -21,18 +22,21 @@ class EDITOR(object):
         self.nodeShape.setMask(self.nodeMask)
         self.lineColorPixmap=QPixmap(15, 15)
         self.listIndex=0
+        self.isolated=False
+        self.USERBLOCK=''
 
+#---construct the editor's table list item & fill with editor info
     def construct_list_item(self,main):
         self.list_entry=QTreeWidgetItem()
         self.display_info()
         main.editorTable.addTopLevelItem(self.list_entry)
 
+#---Fill editor's info into thier table list item
     def display_info(self):
         self.list_entry.setText(0, str(self.firstName))
         self.list_entry.setText(1, str(self.username))
         self.lineColorPixmap.fill(self.lineColorUI)
         self.list_entry.setText(2,str(self.lineWidth))   
         self.list_entry.setIcon(2, QIcon(self.lineColorPixmap))
-
         self.list_entry.setIcon(3, QIcon(self.nodeShape))
         self.list_entry.setText(3,'%s - %s'%(str(self.iconSize),self.nodeShapeText))

@@ -15,6 +15,7 @@ from PyQt5.QtGui import QColor, QIcon
 from PyQt5.QtWidgets import *
 from settings import *
 from import_functions import *
+from export_functions import *
 from unuploaded_functions import *
 from editor_functions import *
 from shape_select_widget import *
@@ -41,7 +42,7 @@ class MainWindow(QMainWindow):
         self.unup_line_color_ui=QColor(BLACK)
         self.unup_node_color_text=''
         self.unup_node_color_ui=QColor(BLACK)
- 
+        self.unup_node_shape_text=''
         self.editor_line_width=0
         self.editor_node_size=0
         self.editor_line_color_text=''
@@ -52,6 +53,13 @@ class MainWindow(QMainWindow):
         self.calendarOpen=False
         self.search_dates=''
         self.time_search_active=False
+        self.isolate_users=False
+        self.addEditors=[]
+
+        self.FINSHEDUSERBLOCK=''
+        self.TITLE=''
+        self.FILENAME=''
+        self.BLOCK=''
         ##-----------------QICONS & QPIXMAPS--------------------------
 
         self.unup_shape=QPixmap(15,15)
@@ -91,6 +99,7 @@ class MainWindow(QMainWindow):
         self.controlsWidgetLayout.addWidget(self.teamNameBox)
 
         self.teamNameField=QLineEdit()
+        self.teamNameField.textChanged.connect(lambda:team_name_changed(self,self.teamNameField.text()))
         self.teamNameBoxLayout.addWidget(self.teamNameField,0,0)
 
         ##--------------------NON UPLOADED HIGHLIGHTS---------------
@@ -401,6 +410,7 @@ class MainWindow(QMainWindow):
 
         self.exportButton=QPushButton()
         self.exportButton.setText("EXPORT")
+        self.exportButton.clicked.connect(lambda:export_clicked(self))
         self.exportButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.exportButton,1,0)        
 
@@ -418,6 +428,7 @@ class MainWindow(QMainWindow):
 
         self.isolateButton=QPushButton()
         self.isolateButton.setText("ISOLATE")
+        self.isolateButton.clicked.connect(lambda:isolate_users(self))
         self.isolateButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.isolateButton,1,3)
 

@@ -1,6 +1,7 @@
 import sys
 import os
 
+#---define resource path for compiled build
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
@@ -10,6 +11,7 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
+#---shapes for editor table & settings previews
 CIRCLE=("static/shapes/circle.png")
 SQUARE=("static/shapes/square.png")
 TRIANGLE =("static/shapes/triangle.png")
@@ -20,6 +22,7 @@ OCTAGON=("static/shapes/octagon.png")
 NONAGON =("static/shapes/nonagon.png")
 DECAGON=("static/shapes/decagon.png")
 
+#---display shaped dictionary for easy assignment from shape name
 allShapes={}
 allShapes['circle']=CIRCLE
 allShapes['triangle']=TRIANGLE
@@ -33,7 +36,7 @@ allShapes['decagon']=DECAGON
 
 
 
-
+#---sghapes for shape select widget buttons
 CIRCLEBUTTON=("static/shapes/circleButton.png")
 SQUAREBUTTON=("static/shapes/squareButton.png")
 TRIANGLEBUTTON =("static/shapes/triangleButton.png")
@@ -44,6 +47,7 @@ OCTAGONBUTTON=("static/shapes/octagonButton.png")
 NONAGONBUTTON =("static/shapes/nonagonButton.png")
 DECAGONBUTTON=("static/shapes/decagonButton.png")
 
+#---button shapes dict for easy assignment from shape name
 allButtonShapes={}
 allButtonShapes['circle']=CIRCLEBUTTON
 allButtonShapes['triangle']=TRIANGLEBUTTON
@@ -54,6 +58,9 @@ allButtonShapes['heptagon']=HEPTAGONBUTTON
 allButtonShapes['octagon']=OCTAGONBUTTON
 allButtonShapes['nonagon']=NONAGONBUTTON
 allButtonShapes['decagon']=DECAGONBUTTON
+
+#---resource paths for images for compiled build
+
 # CIRCLE = resource_path('circle.png')
 # SQUARE = resource_path('square.png')
 # TRIANGLE = resource_path('triangle.png')
