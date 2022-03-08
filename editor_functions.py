@@ -199,12 +199,19 @@ def clear_editor_info(main):
         main.editorNodeShapePreview.setPixmap(main.editorNodeShapePix)
 
 
-def isolate_users(main):
-    if main.isolate_users ==False:
-        main.isolate_users=True
-        for editor in main.selectedEditors:
-            editor.isolated=True
-    else:
-        main.isolate_users=False
-        for editor in main.selectedEditors:
-            editor.isolated=False   
+def hide_users(main):
+    for editor in main.selectedEditors:
+        editor.hidden=True
+        editor.visibility_icon=HIDDEN_ICON
+
+    main.editorTable.clear()
+    for editor in main.currentEditorsOrdered:
+        editor.construct_list_item(main)
+
+def show_users(main):
+    for editor in main.selectedEditors:
+        editor.hidden=False
+        editor.visibility_icon=VIEW_ICON
+    main.editorTable.clear()
+    for editor in main.currentEditorsOrdered:
+        editor.construct_list_item(main)

@@ -7,11 +7,7 @@ def export_clicked(main):
     if main.teamNameField.text() != "":
         main.addEditors = []
         for editor in main.currentEditorsOrdered:
-            if main.isolate_users == True:
-                if editor.isolated:
-                    main.addEditors.append(editor)
-        
-            else:    
+            if not editor.hidden:
                 main.addEditors.append(editor)
         
         # 'set the file name for the new export and meta block title using the corresponding team name'

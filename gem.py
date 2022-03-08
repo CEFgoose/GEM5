@@ -21,6 +21,7 @@ from editor_functions import *
 from shape_select_widget import *
 from list_functions import *
 from timesearch_functions import *
+from close_handler import *
 #----------------------MAIN WINDOW CLASS----------------------------
 
 class MainWindow(QMainWindow):
@@ -53,7 +54,7 @@ class MainWindow(QMainWindow):
         self.calendarOpen=False
         self.search_dates=''
         self.time_search_active=False
-        self.isolate_users=False
+        self.hide_users=False
         self.addEditors=[]
 
         self.FINSHEDUSERBLOCK=''
@@ -362,6 +363,9 @@ class MainWindow(QMainWindow):
         self.tableWidget.setTitle("Table")
         self.tableWidgetLayout=QVBoxLayout()
 
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+        self.tableWidget.setSizePolicy(sizePolicy)
+
         self.tableWidgetLayout.setSpacing(0)
         self.tableWidgetLayout.setContentsMargins(0,0,0,0)
 
@@ -370,9 +374,12 @@ class MainWindow(QMainWindow):
 
         self.editorTable=QTreeWidget()
         self.editorTable.clicked.connect(lambda:editor_list_clicked(self))
-        self.editorTable.setColumnCount(4)
-        self.editorTable.setHeaderLabels(['Name','OSM Username','Line Color/Width','Node Color/Size/Shape'])
-        self.editorTable.setSizePolicy (QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.editorTable.setColumnCount(5)
+        self.editorTable.setHeaderLabels(['Viewing','Name','OSM Username','Line Color/Width','Node Color/Size/Shape'])
+        self.header = self.editorTable.header()
+        
+        #header.setStretchLastSection(False)
+        #header.setSectionResizeMode(5,QHeaderView.Stretch)
         
         self.editorTable.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.tableWidgetLayout.addWidget(self.editorTable)
@@ -403,7 +410,8 @@ class MainWindow(QMainWindow):
         self.tableControlsWidgetLayout.addWidget(self.moveUpButton,0,2)
 
         self.restackButton=QPushButton()
-        self.restackButton.setText("RESTACK")
+        self.restackButton.clicked.connect(lambda:show_users(self))
+        self.restackButton.setText("SHOW")
 
         self.restackButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.restackButton,0,3)
@@ -427,8 +435,8 @@ class MainWindow(QMainWindow):
         self.tableControlsWidgetLayout.addWidget(self.moveDownButton,1,2)
 
         self.isolateButton=QPushButton()
-        self.isolateButton.setText("ISOLATE")
-        self.isolateButton.clicked.connect(lambda:isolate_users(self))
+        self.isolateButton.setText("HIDE")
+        self.isolateButton.clicked.connect(lambda:hide_users(self))
         self.isolateButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.isolateButton,1,3)
 
@@ -460,10 +468,8 @@ class MainWindow(QMainWindow):
 
 # close ewindow event---------------------------------
     def closeEvent(self, event):
-        #save_settings(self)
-        # if self.team_obj != self.loaded_team_obj:
-        #     autosave_team_file(self)
-        # self.deleteLater()
+        export_unaltered_file(self)
+        self.deleteLater()
         try:
             print("CLOSE")
             # self.changeset_mode_widget.close()
