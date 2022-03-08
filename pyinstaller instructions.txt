@@ -1,1 +1,1 @@
-https://www8.garmin.com/support/download_details.jsp?id=3825
+pyi-makespec  --windowed  --onefile --noconsole CS2CSV.py -i /Users/cefgoose/Desktop/cs2csv_icon.png
