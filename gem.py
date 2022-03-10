@@ -22,6 +22,7 @@ from shape_select_widget import *
 from list_functions import *
 from timesearch_functions import *
 from close_handler import *
+from view_editor import *
 #----------------------MAIN WINDOW CLASS----------------------------
 
 class MainWindow(QMainWindow):
@@ -373,7 +374,8 @@ class MainWindow(QMainWindow):
         self.mainWidgetLayout.addWidget(self.tableWidget,0,1)
 
         self.editorTable=QTreeWidget()
-        self.editorTable.clicked.connect(lambda:editor_list_clicked(self))
+        self.editorTable.itemSelectionChanged.connect(lambda:editor_list_clicked(self))
+        self.editorTable.doubleClicked.connect(lambda:open_view_editor_widget(self))
         self.editorTable.setColumnCount(5)
         self.editorTable.setHeaderLabels(['Viewing','Name','OSM Username','Line Color/Width','Node Color/Size/Shape'])
         self.header = self.editorTable.header()
@@ -418,7 +420,7 @@ class MainWindow(QMainWindow):
 
         self.exportButton=QPushButton()
         self.exportButton.setText("EXPORT")
-        self.exportButton.clicked.connect(lambda:export_clicked(self))
+        self.exportButton.clicked.connect(lambda:export_clicked(self,'clicked'))
         self.exportButton.setFixedWidth(110)
         self.tableControlsWidgetLayout.addWidget(self.exportButton,1,0)        
 

@@ -4,4 +4,4 @@ def export_unaltered_file(main):
     for editor in main.currentEditorsOrdered:
         editor.hidden=False
     main.time_search_active=False
-    export_clicked(main)
+    export_clicked(main,'close event')

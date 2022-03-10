@@ -5,7 +5,7 @@ meta {
   description: "";
   watch-modified: true;
   version: "";
-  icon: "";
+
 
 }
 
