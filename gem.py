@@ -1,4 +1,15 @@
+#---------------------CREDITS-------------------------------------
 
+__author__ = "Chris Gousset"
+__copyright__ = "N/A"
+__credits__ = ['Chris Gousset']
+__license__ = "N/A"
+__version__ = "5.1"
+__maintainer__ = "Chris Gousset"
+__email__ = "chris.gousset@kaart.com"
+__status__ = "Development"
+
+#---------------------IMPORTS-------------------------------------
 import os
 import sys
 from os import chdir
