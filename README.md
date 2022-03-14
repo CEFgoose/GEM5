@@ -1,10 +1,24 @@
 # GEM
 GUI Editor for MapCss
 
+OVERVIEW:
+
+GEM is a GUI app for creating and editing QA/QC centric mapCss paintstyles for use in JOSM and other platforms.
+
+GEM allows the user to add, edit and filter editors by OSM username, and to assign each or all uniqe color and shape highlights for both ways and nodes on the OSM map.
+
+The user can also hide or show editors within their list at any time to more easily distinguish areas aof work.
+
+GEM also features a time search feature, which will only highlight uploads made by the selected editors during the time frame selected.
+
+GEM uses a custom mapcss format, and curently only supports importing/exporting of that particular format. A sample MapCss file in the correct format can be found in the root directory of the repo.
+
+Any new paint style created from scratch will automatically be set in the GEM format when exported.
+
 
 GUI Editor for MapCss (GEM) Instructions
 
-INSTALLATION
+INSTALLATION:
 
 1. Drag the zip file into your desired folder.
 
